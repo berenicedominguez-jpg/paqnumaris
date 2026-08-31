@@ -357,21 +357,13 @@
   <div class="card">
     <table>
       <thead><tr><th>Cliente</th><th class="num">Unid.</th><th class="num">Eventos</th><th class="num">Recup.</th><th class="num">% Recup.</th><th>Paquete</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">ANERPV</th><th class="num">Viáticos</th><th class="num">Penal.</th><th>Estado</th></tr></thead>
-      <tbody>
-        <tr><td>Multitravi</td><td class="num">67</td><td class="num">9</td><td class="num">9</td><td class="num">100.0%</td><td>Rastreo Plus</td><td class="num">$435,500</td><td class="num">$468,799</td><td class="num">$130</td><td class="num">—</td><td class="num">—</td><td><span class="pill ok">Sano</span></td></tr>
-        <tr><td>Alquiladora de Vehículos</td><td class="num">3,848</td><td class="num">48</td><td class="num">40</td><td class="num">83.3%</td><td>Renta Diaria</td><td class="num">$25,996,000</td><td class="num">$46,164,456</td><td class="num">$7,456</td><td class="num">$384,000</td><td class="num">—</td><td><span class="pill ok">Sano</span></td></tr>
-        <tr><td>Nacional Monte de Piedad</td><td class="num">4,205</td><td class="num">179</td><td class="num">166</td><td class="num">92.7%</td><td>Empeño</td><td class="num">$31,002,000</td><td class="num">$65,164,885</td><td class="num">$8,148</td><td class="num">$1,432,000</td><td class="num">—</td><td><span class="pill ok">Sano</span></td></tr>
-        <tr><td>Central Leasing</td><td class="num">1,162</td><td class="num">12</td><td class="num">2</td><td class="num">16.7%</td><td>Rastreo Plus</td><td class="num">$7,553,000</td><td class="num">$8,130,514</td><td class="num">$2,252</td><td class="num">—</td><td class="num">$300,000</td><td><span class="pill bad">Crítico</span></td></tr>
-      </tbody>
+      <tbody id="p7-tbody"><tr><td colspan="12" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
   <div class="chart-wrap" style="height:230px;"><canvas id="casosChart" role="img" aria-label="Recuperacion por cliente 2025"></canvas></div>
 
-  <div class="note"><b>Multitravi:</b> 100% recuperado, sin costos extra, sin viáticos (Robo). Ingreso sube +$33,299/año con el paquete.</div>
-  <div class="note"><b>Alquiladora:</b> 83.3% recuperado, sin penalización interna. Ingreso pasa de ~$26.0M a ~$46.2M/año.</div>
-  <div class="note"><b>Monte de Piedad:</b> 92.7% recuperado, el mejor % de los 4. Ingreso pasa de ~$31.0M a ~$65.2M/año.</div>
-  <div class="note" style="border-left-color:var(--red);"><b>Central Leasing — ALERTA:</b> sólo 16.7% recuperado, debajo del umbral de 75%. Penalización activa de $300,000. Aun así el paquete gana más que el actual (+$578,514/año) — pero el problema de fondo es operativo, no de precio.</div>
+  <div id="p7-notas"></div>
 </div>
 
 <!-- PAGE 8: SANCIONES -->
@@ -402,12 +394,7 @@
     <h3>Aplicación a los 4 casos reales</h3>
     <table>
       <thead><tr><th>Cliente</th><th class="num">% Recup.</th><th class="num">Sanción Qualitas</th><th>¿Cumple?</th><th class="num">Días pago GNP (aprox.)</th><th class="num">Sanción interno</th><th>¿Cuál mayor?</th></tr></thead>
-      <tbody>
-        <tr><td>Multitravi</td><td class="num">100.0%</td><td class="num">—</td><td><span class="pill ok">SI</span></td><td class="num">7</td><td class="num">—</td><td>Igual</td></tr>
-        <tr><td>Alquiladora</td><td class="num">83.3%</td><td class="num">$800,000</td><td><span class="pill bad">NO</span></td><td class="num">30</td><td class="num">—</td><td><b>Qualitas</b></td></tr>
-        <tr><td>Monte de Piedad</td><td class="num">92.7%</td><td class="num">—</td><td><span class="pill ok">SI</span></td><td class="num">15</td><td class="num">—</td><td>Igual</td></tr>
-        <tr><td>Central Leasing</td><td class="num">16.7%</td><td class="num">$1,000,000</td><td><span class="pill bad">NO</span></td><td class="num">30</td><td class="num">$300,000</td><td><b>Qualitas</b></td></tr>
-      </tbody>
+      <tbody id="p8-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
@@ -545,7 +532,7 @@ window.sensChart = new Chart(document.getElementById('sensChart'), {
 });
 
 // Page 7: client recovery chart
-new Chart(document.getElementById('casosChart'), {
+window.casosChart = new Chart(document.getElementById('casosChart'), {
   type: 'bar',
   data: {
     labels: ['Multitravi', 'Alquiladora', 'Monte de Piedad', 'Central Leasing'],
@@ -896,6 +883,12 @@ updateEC();
     [2025, 622, 88, 54454, 371147094.99, 48868566.00],
     [2026, 488, 60, 62387, 270963319.00, 38306111.00],
   ];
+  const FALLBACK_CASOS_RAW = [
+    ['MULTITRAVI', 67, 9, 9, 0, 1.0, 'Rastreo Plus', 1000000, 'Robo', 435500, 468799, 130, 0, 0, 130, 435370, 468669, 'NO'],
+    ['ALQUILADORA DE VEHÍCULOS AUTOMOTORES', 3848, 48, 40, 8, 0.833333333, 'Renta Diaria', 300000, 'Abuso', 25996000, 46164456, 7456, 384000, 0, 391456, 25604544, 45773000, 'NO'],
+    ['NACIONAL MONTE DE PIEDAD', 4205, 179, 166, 13, 0.927374301, 'Empeño', 300000, 'Cobranza', 31002000, 65164885, 8148, 1432000, 0, 1440148, 29561852, 63724737, 'NO'],
+    ['CENTRAL LEASING', 1162, 12, 2, 10, 0.166666667, 'Rastreo Plus', 300000, 'Robo', 7553000, 8130514, 2252, 0, 300000, 302252, 7250748, 7828262, 'SI'],
+  ];
 
   function parseSupuestos(rows){
     const s = {};
@@ -952,6 +945,22 @@ updateEC();
     });
   }
 
+  function parseCasosReales(rows){
+    // data rows are the ones where column A is a non-empty string AND column B parses as a number (Unidades)
+    return (rows || []).filter(function(r){
+      return typeof r[0] === 'string' && r[0].trim() !== '' && r[1] !== '' && r[1] != null && !isNaN(parseFloat(r[1]));
+    }).map(function(r){
+      return {
+        nombre: r[0], unidades: Number(r[1])||0, eventos: Number(r[2])||0, recuperados: Number(r[3])||0,
+        norecuperados: Number(r[4])||0, pctrec: Number(r[5])||0, paquete: r[6]||'', valorprom: Number(r[7])||0,
+        tipoevento: r[8]||'', ingresoActual: Number(r[9])||0, ingresoPaquete: Number(r[10])||0,
+        anerpv: Number(r[11])||0, viaticos: Number(r[12])||0, penalizacion: Number(r[13])||0,
+        costoTotal: Number(r[14])||0, utilidadActual: Number(r[15])||0, utilidadPaquete: Number(r[16])||0,
+        aplicaPenal: (typeof r[17]==='string' && r[17].trim().toUpperCase()==='SI'),
+      };
+    });
+  }
+
   function rawToYearObjs(raw){
     return raw.map(function(r){
       return { year: r[0], rec: r[1], norec: r[2], total: r[3], montorec: r[4], montonorec: r[5] };
@@ -976,6 +985,7 @@ updateEC();
   }
 
   function money(n){ if(n==null||isNaN(n)) return '—'; const sign=n<0?'-':''; return sign+'$'+Math.round(Math.abs(n)).toLocaleString('en-US'); }
+  function fmtInt(n){ if(n==null||isNaN(n)) return '—'; return Math.round(n).toLocaleString('en-US'); }
   function pct(n,d){ if(n==null||isNaN(n)) return '—'; return (n*100).toFixed(d===undefined?1:d)+'%'; }
   function setTxt(id, txt){ const el = document.getElementById(id); if (el) el.textContent = txt; }
 
@@ -1169,12 +1179,74 @@ updateEC();
     }
   }
 
+  function renderPage7(clientes){
+    const nombreCorto = { 'ALQUILADORA DE VEHÍCULOS AUTOMOTORES':'Alquiladora de Vehículos', 'NACIONAL MONTE DE PIEDAD':'Nacional Monte de Piedad', 'MULTITRAVI':'Multitravi', 'CENTRAL LEASING':'Central Leasing' };
+    const tb = document.getElementById('p7-tbody');
+    if (tb) tb.innerHTML = clientes.map(function(c){
+      const critico = c.aplicaPenal;
+      const estado = critico ? '<span class="pill bad">Crítico</span>' : '<span class="pill ok">Sano</span>';
+      return '<tr><td>'+(nombreCorto[c.nombre]||c.nombre)+'</td><td class="num">'+fmtInt(c.unidades)+'</td><td class="num">'+fmtInt(c.eventos)+'</td>'+
+        '<td class="num">'+fmtInt(c.recuperados)+'</td><td class="num">'+pct(c.pctrec,1)+'</td><td>'+c.paquete+'</td>'+
+        '<td class="num">'+money(c.ingresoActual)+'</td><td class="num">'+money(c.ingresoPaquete)+'</td>'+
+        '<td class="num">'+money(c.anerpv)+'</td><td class="num">'+(c.viaticos?money(c.viaticos):'—')+'</td>'+
+        '<td class="num">'+(c.penalizacion?money(c.penalizacion):'—')+'</td><td>'+estado+'</td></tr>';
+    }).join('');
+
+    if (window.casosChart){
+      window.casosChart.data.labels = clientes.map(function(c){ return (nombreCorto[c.nombre]||c.nombre).split(' ')[0]; });
+      window.casosChart.data.datasets[0].data = clientes.map(function(c){ return +(c.pctrec*100).toFixed(1); });
+      window.casosChart.data.datasets[0].backgroundColor = clientes.map(function(c){
+        if (c.pctrec>=0.90) return '#008300';
+        if (c.pctrec>=0.75) return '#c98500';
+        return '#d03b3b';
+      });
+      window.casosChart.update();
+    }
+
+    const notasEl = document.getElementById('p7-notas');
+    if (notasEl){
+      notasEl.innerHTML = clientes.map(function(c){
+        const diff = c.utilidadPaquete-c.utilidadActual;
+        const critico = c.aplicaPenal;
+        const style = critico ? ' style="border-left-color:var(--red);"' : '';
+        const label = nombreCorto[c.nombre]||c.nombre;
+        let texto;
+        if (critico){
+          texto = '<b>'+label+' — ALERTA:</b> sólo '+pct(c.pctrec,1)+' recuperado, debajo del umbral. Penalización activa de '+money(c.penalizacion)+'. Aun así el paquete '+(diff>=0?'gana más que el actual':'pierde frente al actual')+' ('+(diff>=0?'+':'')+money(diff)+'/año) — pero el problema de fondo es operativo, no de precio.';
+        } else {
+          texto = '<b>'+label+':</b> '+fmtInt(c.recuperados)+' de '+fmtInt(c.eventos)+' eventos recuperados ('+pct(c.pctrec,1)+'). Ingreso pasa de '+money(c.ingresoActual)+' a '+money(c.ingresoPaquete)+'/año con el paquete.';
+        }
+        return '<div class="note"'+style+'>'+texto+'</div>';
+      }).join('');
+    }
+  }
+
+  function renderPage8(clientes){
+    const QUALITAS_OBJ=0.90, QUALITAS_FIJO=100000;
+    const nombreCorto = { 'ALQUILADORA DE VEHÍCULOS AUTOMOTORES':'Alquiladora', 'NACIONAL MONTE DE PIEDAD':'Monte de Piedad', 'MULTITRAVI':'Multitravi', 'CENTRAL LEASING':'Central Leasing' };
+    const tb = document.getElementById('p8-tbody');
+    if (tb) tb.innerHTML = clientes.map(function(c){
+      const sancionQ = c.pctrec < QUALITAS_OBJ ? c.norecuperados*QUALITAS_FIJO : 0;
+      const cumple = c.pctrec >= QUALITAS_OBJ;
+      const dias = c.pctrec>=0.95 ? 7 : (c.pctrec>=0.85 ? 15 : 30);
+      const sancionInterno = c.penalizacion||0;
+      let cual;
+      if (sancionQ>sancionInterno) cual='<b>Qualitas</b>'; else if (sancionInterno>sancionQ) cual='<b>Interno</b>'; else cual='Igual';
+      return '<tr><td>'+(nombreCorto[c.nombre]||c.nombre)+'</td><td class="num">'+pct(c.pctrec,1)+'</td>'+
+        '<td class="num">'+(sancionQ?money(sancionQ):'—')+'</td><td><span class="pill '+(cumple?'ok':'bad')+'">'+(cumple?'SI':'NO')+'</span></td>'+
+        '<td class="num">'+dias+'</td><td class="num">'+(sancionInterno?money(sancionInterno):'—')+'</td><td>'+cual+'</td></tr>';
+    }).join('');
+  }
+
   function boot(sheetsPayload, isLive){
     const supuestosRaw = sheetsPayload && sheetsPayload['Supuestos'];
     const datosRaw = sheetsPayload && sheetsPayload['Datos'];
+    const casosRaw = sheetsPayload && sheetsPayload['Casos Reales Clientes 2025'];
     const s = isLive ? Object.assign({}, FALLBACK_SUPUESTOS, parseSupuestos(supuestosRaw)) : FALLBACK_SUPUESTOS;
     const datosParsed = isLive ? parseDatos(datosRaw) : FALLBACK_DATOS_RAW;
     const years = rawToYearObjs(datosParsed.length ? datosParsed : FALLBACK_DATOS_RAW);
+    const casosParsed = isLive ? parseCasosReales(casosRaw) : [];
+    const clientes = casosParsed.length ? casosParsed : parseCasosReales(FALLBACK_CASOS_RAW);
 
     applyPaquetesLive(s);
     renderPage1(s);
@@ -1182,6 +1254,8 @@ updateEC();
     renderPage3(s);
     renderPage5(s);
     renderPage6(s);
+    renderPage7(clientes);
+    renderPage8(clientes);
     if (typeof window.renderPage9 === 'function'){
       window.renderPage9(years, s, isLive);
     }
