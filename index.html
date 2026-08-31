@@ -29,7 +29,7 @@
   .page.active{display:block;}
   h2.page-title{font-size:20px; font-weight:600; margin:0 0 4px;}
   .page-sub{color:var(--text2); font-size:13px; margin:0 0 20px;}
-  .card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin-bottom:18px;}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin-bottom:18px; overflow-x:auto;}
   .card h3{font-size:15px; font-weight:600; margin:0 0 12px;}
   table{width:100%; border-collapse:collapse; font-size:13px;}
   th,td{text-align:left; padding:8px 9px; border-bottom:1px solid var(--border); vertical-align:top;}
@@ -149,13 +149,13 @@
   <div class="card">
     <h3>Rastreo (GPS + Niv.1) — <span class="pill bad">NO VIABLE en todos los tamaños</span></h3>
     <table>
-      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
       <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$119,960</td><td class="num">-$10,040</td><td class="num">-7.7%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$299,900</td><td class="num">-$25,100</td><td class="num">-7.7%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$599,800</td><td class="num">-$50,200</td><td class="num">-7.7%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$1,799,400</td><td class="num">-$150,600</td><td class="num">-7.7%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$2,999,000</td><td class="num">-$251,000</td><td class="num">-7.7%</td></tr>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$119,960</td><td class="num">-$10,040</td><td class="num">-7.7%</td><td class="num">$39</td><td class="num">$129,961</td><td class="num">99.97%</td><td class="num">$119,921</td><td class="num">99.97%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$299,900</td><td class="num">-$25,100</td><td class="num">-7.7%</td><td class="num">$97</td><td class="num">$324,903</td><td class="num">99.97%</td><td class="num">$299,803</td><td class="num">99.97%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$599,800</td><td class="num">-$50,200</td><td class="num">-7.7%</td><td class="num">$194</td><td class="num">$649,806</td><td class="num">99.97%</td><td class="num">$599,606</td><td class="num">99.97%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$1,799,400</td><td class="num">-$150,600</td><td class="num">-7.7%</td><td class="num">$581</td><td class="num">$1,949,419</td><td class="num">99.97%</td><td class="num">$1,798,819</td><td class="num">99.97%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$2,999,000</td><td class="num">-$251,000</td><td class="num">-7.7%</td><td class="num">$969</td><td class="num">$3,249,031</td><td class="num">99.97%</td><td class="num">$2,998,031</td><td class="num">99.97%</td></tr>
       </tbody>
     </table>
   </div>
@@ -163,13 +163,13 @@
   <div class="card">
     <h3>Rastreo Plus (GPS + BLE + Niv.1) — <span class="pill ok">VIABLE</span></h3>
     <table>
-      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
       <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$139,940</td><td class="num">+$9,940</td><td class="num">+7.6%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$349,850</td><td class="num">+$24,850</td><td class="num">+7.6%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$699,700</td><td class="num">+$49,700</td><td class="num">+7.6%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$2,099,100</td><td class="num">+$149,100</td><td class="num">+7.6%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$3,498,500</td><td class="num">+$248,500</td><td class="num">+7.6%</td></tr>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$139,940</td><td class="num">+$9,940</td><td class="num">+7.6%</td><td class="num">$39</td><td class="num">$129,961</td><td class="num">99.97%</td><td class="num">$139,901</td><td class="num">99.97%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$349,850</td><td class="num">+$24,850</td><td class="num">+7.6%</td><td class="num">$97</td><td class="num">$324,903</td><td class="num">99.97%</td><td class="num">$349,753</td><td class="num">99.97%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$699,700</td><td class="num">+$49,700</td><td class="num">+7.6%</td><td class="num">$194</td><td class="num">$649,806</td><td class="num">99.97%</td><td class="num">$699,506</td><td class="num">99.97%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$2,099,100</td><td class="num">+$149,100</td><td class="num">+7.6%</td><td class="num">$581</td><td class="num">$1,949,419</td><td class="num">99.97%</td><td class="num">$2,098,519</td><td class="num">99.97%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$3,498,500</td><td class="num">+$248,500</td><td class="num">+7.6%</td><td class="num">$969</td><td class="num">$3,249,031</td><td class="num">99.97%</td><td class="num">$3,497,531</td><td class="num">99.97%</td></tr>
       </tbody>
     </table>
   </div>
@@ -177,13 +177,13 @@
   <div class="card">
     <h3>Renta Diaria (GPS + Niv.1 + Niv.2) — <span class="pill ok">VIABLE</span></h3>
     <table>
-      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
       <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$239,940</td><td class="num">+$109,940</td><td class="num">+84.6%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$599,850</td><td class="num">+$274,850</td><td class="num">+84.6%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,199,700</td><td class="num">+$549,700</td><td class="num">+84.6%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$3,599,100</td><td class="num">+$1,649,100</td><td class="num">+84.6%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$5,998,500</td><td class="num">+$2,748,500</td><td class="num">+84.6%</td></tr>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$239,940</td><td class="num">+$109,940</td><td class="num">+84.6%</td><td class="num">$178</td><td class="num">$129,822</td><td class="num">99.86%</td><td class="num">$239,762</td><td class="num">99.93%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$599,850</td><td class="num">+$274,850</td><td class="num">+84.6%</td><td class="num">$446</td><td class="num">$324,554</td><td class="num">99.86%</td><td class="num">$599,404</td><td class="num">99.93%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,199,700</td><td class="num">+$549,700</td><td class="num">+84.6%</td><td class="num">$891</td><td class="num">$649,109</td><td class="num">99.86%</td><td class="num">$1,198,809</td><td class="num">99.93%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$3,599,100</td><td class="num">+$1,649,100</td><td class="num">+84.6%</td><td class="num">$2,674</td><td class="num">$1,947,326</td><td class="num">99.86%</td><td class="num">$3,596,426</td><td class="num">99.93%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$5,998,500</td><td class="num">+$2,748,500</td><td class="num">+84.6%</td><td class="num">$4,457</td><td class="num">$3,245,543</td><td class="num">99.86%</td><td class="num">$5,994,043</td><td class="num">99.93%</td></tr>
       </tbody>
     </table>
   </div>
@@ -191,16 +191,18 @@
   <div class="card">
     <h3>Empeño (GPS + Niv.1 + Niv.3) — <span class="pill ok">VIABLE</span></h3>
     <table>
-      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
       <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$309,940</td><td class="num">+$179,940</td><td class="num">+138.4%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$774,850</td><td class="num">+$449,850</td><td class="num">+138.4%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,549,700</td><td class="num">+$899,700</td><td class="num">+138.4%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$4,649,100</td><td class="num">+$2,699,100</td><td class="num">+138.4%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$7,748,500</td><td class="num">+$4,498,500</td><td class="num">+138.4%</td></tr>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$309,940</td><td class="num">+$179,940</td><td class="num">+138.4%</td><td class="num">$488</td><td class="num">$129,512</td><td class="num">99.62%</td><td class="num">$309,452</td><td class="num">99.84%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$774,850</td><td class="num">+$449,850</td><td class="num">+138.4%</td><td class="num">$1,221</td><td class="num">$323,779</td><td class="num">99.62%</td><td class="num">$773,629</td><td class="num">99.84%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,549,700</td><td class="num">+$899,700</td><td class="num">+138.4%</td><td class="num">$2,442</td><td class="num">$647,558</td><td class="num">99.62%</td><td class="num">$1,547,258</td><td class="num">99.84%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$4,649,100</td><td class="num">+$2,699,100</td><td class="num">+138.4%</td><td class="num">$7,325</td><td class="num">$1,942,675</td><td class="num">99.62%</td><td class="num">$4,641,775</td><td class="num">99.84%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$7,748,500</td><td class="num">+$4,498,500</td><td class="num">+138.4%</td><td class="num">$12,208</td><td class="num">$3,237,792</td><td class="num">99.62%</td><td class="num">$7,736,292</td><td class="num">99.84%</td></tr>
       </tbody>
     </table>
   </div>
+
+  <div class="note">Cómo se calcula: Costos = ANERPV prorateado (según unidades del cliente sobre el total de flota, 61,929) + viáticos (eventos esperados × $8,000 — sólo aplica en Renta Diaria y Empeño; Rastreo y Rastreo Plus no pagan viáticos porque son de tipo Robo). Utilidad = Ingreso − Costos. Margen = Utilidad ÷ Ingreso. A este tamaño de cliente, los costos son tan pequeños frente al ingreso que el margen siempre queda arriba de 99.6% en los 4 paquetes — la penalización (que sí puede afectar el margen de forma importante) no está incluida aquí porque a la tasa real de recuperación 2025 siempre da $0; ver el simulador de abajo para ver el efecto si la recuperación cae.</div>
 
   <div class="note">Simulador de penalización por escenario — cambia el % de recuperación asumido y las unidades para ver el efecto (a la tasa real 2025, la penalización siempre da $0 porque todas las categorías recuperan &gt;75%):</div>
   <div class="card">
@@ -500,12 +502,12 @@
         <tr><td>2025</td><td class="num">622</td><td class="num">88</td><td class="num">54,454</td><td class="num">87.61%</td><td class="num">$371,147,095</td><td class="num">$48,868,566</td></tr>
         <tr><td>2026 (ene-ago, real)</td><td class="num">488</td><td class="num">60</td><td class="num">62,387</td><td class="num">89.05%</td><td class="num">$270,963,319</td><td class="num">$38,306,111</td></tr>
         <tr class="total"><td>2026 (proyección cierre)</td><td class="num">732</td><td class="num">90</td><td class="num">62,387*</td><td class="num">89.05%</td><td class="num">$406,444,978</td><td class="num">$57,459,167</td></tr>
+        <tr class="total" style="background:#eef0f5;"><td>2027 (proyección)</td><td class="num">906</td><td class="num">124</td><td class="num">81,888**</td><td class="num">88.0%</td><td class="num">—</td><td class="num">—</td></tr>
       </tbody>
     </table>
     <div class="note">*Total de unidades se mantiene al último valor conocido (ago-2026); no se proyecta porque no es una variable de flujo anual. El resto (recuperados, no recuperados, montos) se proyecta multiplicando por 12/8, asumiendo que el ritmo de septiembre a diciembre se comporta igual que enero-agosto.</div>
+    <div class="note">**2027 usa una metodología distinta porque es un año completo a futuro (no hay datos reales que ajustar, como sí los hay en 2026). Total de unidades: se extiende el crecimiento reciente observado de 2025 a ago-2026 (22.6% anualizado) 16 meses hacia adelante → 81,888 unidades. Eventos: se aplica la tasa promedio histórica de eventos por unidad (1.257%, promedio de los 4 años) → 1,029 eventos. % Recuperación: se usa el promedio histórico de los 4 años (88.0%) en vez de una tendencia, porque la recuperación no muestra una dirección clara (sube y baja entre 85.9% y 89.4%).</div>
   </div>
-
-  <div class="chart-wrap" style="height:230px;"><canvas id="trendPctChart" role="img" aria-label="Porcentaje de recuperacion 2023 a proyeccion 2026"></canvas></div>
 
   <h3 style="margin:28px 0 4px;">Los 3 escenarios de penalización, año por año</h3>
   <p class="page-sub" style="margin-top:0;">Aplicando las reglas de INTERNO (10% del monto no recuperado si &lt;75%), QUALITAS ($100,000 fijo por unidad no recuperada si &lt;90%) y GNP (tramo de días de pago)</p>
@@ -519,11 +521,10 @@
         <tr><td>2025</td><td class="num">87.61%</td><td class="num">$0</td><td class="num">$8,800,000</td><td>15 días</td></tr>
         <tr><td>2026 (ene-ago, real)</td><td class="num">89.05%</td><td class="num">$0</td><td class="num">$6,000,000</td><td>15 días</td></tr>
         <tr class="total"><td>2026 (proyección cierre)</td><td class="num">89.05%</td><td class="num">$0</td><td class="num">$9,000,000</td><td>15 días</td></tr>
+        <tr class="total" style="background:#eef0f5;"><td>2027 (proyección)</td><td class="num">88.0%</td><td class="num">$0</td><td class="num">$12,400,000</td><td>15 días</td></tr>
       </tbody>
     </table>
   </div>
-
-  <div class="chart-wrap" style="height:250px;"><canvas id="penalCompareChart" role="img" aria-label="Comparativo de penalizacion INTERNO vs QUALITAS por año"></canvas></div>
 
   <div class="note" style="border-left-color:var(--red);">
     <b>Hallazgo clave:</b> bajo el modelo INTERNO, la penalización siempre da $0 en los 4 años (nunca cae debajo de 75%
@@ -557,11 +558,10 @@
         <tr><td>2025</td><td class="num">$353,951,000</td><td class="num">$120,000</td><td class="num">$5,680,000</td><td class="num">$348,151,000</td><td class="num">98.4%</td><td class="num">$339,351,000</td><td class="num">95.9%</td></tr>
         <tr><td>2026 (ene-ago, real)</td><td class="num">$270,343,667</td><td class="num">$80,000</td><td class="num">$4,384,000</td><td class="num">$265,879,667</td><td class="num">98.3%</td><td class="num">$259,879,667</td><td class="num">96.1%</td></tr>
         <tr class="total"><td>2026 (proyección cierre)</td><td class="num">$405,515,500</td><td class="num">$120,000</td><td class="num">$6,576,000</td><td class="num">$398,819,500</td><td class="num">98.3%</td><td class="num">$389,819,500</td><td class="num">96.1%</td></tr>
+        <tr class="total" style="background:#eef0f5;"><td>2027 (proyección)</td><td class="num">$532,275,025</td><td class="num">$120,000</td><td class="num">$8,233,381</td><td class="num">$523,921,644</td><td class="num">98.4%</td><td class="num">$511,556,994</td><td class="num">96.1%</td></tr>
       </tbody>
     </table>
   </div>
-
-  <div class="chart-wrap" style="height:250px;"><canvas id="marginChart" role="img" aria-label="Margen del negocio por año, escenario interno vs qualitas"></canvas></div>
 
   <div class="note">
     <b>Lectura:</b> el margen se mantiene muy alto (94.6%-98.9%) en ambos escenarios porque el ingreso base de
@@ -576,6 +576,129 @@
     trae ese desglose por tipo, a diferencia de la hoja "Supuestos"). Si en algún año la mezcla de tipos de evento
     fue muy distinta a 2025 (67.8% Robo / 32.2% Abuso+Cobranza), el costo real de viáticos podría ser algo menor,
     ya que el Robo no genera viáticos.
+  </div>
+  <div class="note" style="border-left-color:var(--amber);">
+    <b>2027 — hallazgo:</b> aun con crecimiento de flota (+22.6% anual estimado) el margen se mantiene prácticamente
+    igual (98.4% interno, 96.1% si Qualitas), porque ingreso y costos crecen a un ritmo parecido. Lo que SÍ crece en
+    pesos es la penalización de Qualitas: de $9,000,000 (2026 proyectado) a <b>$12,400,000</b> (2027), un 38% más,
+    simplemente porque hay más unidades y por lo tanto más eventos no recuperados en términos absolutos — aunque el
+    % de recuperación (88.0%) es similar al de años anteriores.
+  </div>
+
+  <h3 style="margin:28px 0 4px;">Utilidad y margen por tamaño de flota, usando los datos de esta hoja (2023-2027)</h3>
+  <p class="page-sub" style="margin-top:0;">Para un cliente de 20 a 500 unidades, aplicando la tasa de eventos y % de recuperación reales de CADA año (no las de la hoja "Supuestos"). Costos = ANERPV prorateado + viáticos (eventos × $8,000).</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px; font-size:14px;">2023 — tasa de eventos 1.569%, recuperación 85.94%</h4>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso</th><th class="num">Costos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Penal. Qualitas</th><th class="num">Utilidad (QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$2,594</td><td class="num">$127,406</td><td class="num">98.00%</td><td class="num">$4,412</td><td class="num">$122,994</td><td class="num">94.61%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$6,485</td><td class="num">$318,515</td><td class="num">98.00%</td><td class="num">$11,031</td><td class="num">$307,484</td><td class="num">94.61%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$12,971</td><td class="num">$637,029</td><td class="num">98.00%</td><td class="num">$22,061</td><td class="num">$614,968</td><td class="num">94.61%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$38,912</td><td class="num">$1,911,088</td><td class="num">98.00%</td><td class="num">$66,183</td><td class="num">$1,844,905</td><td class="num">94.61%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$64,853</td><td class="num">$3,185,147</td><td class="num">98.00%</td><td class="num">$110,306</td><td class="num">$3,074,842</td><td class="num">94.61%</td></tr>
+        <tr><td>1,000</td><td class="num">$6,500,000</td><td class="num">$129,706</td><td class="num">$6,370,294</td><td class="num">98.00%</td><td class="num">$220,611</td><td class="num">$6,149,683</td><td class="num">94.61%</td></tr>
+        <tr><td>2,000</td><td class="num">$13,000,000</td><td class="num">$259,411</td><td class="num">$12,740,589</td><td class="num">98.00%</td><td class="num">$441,223</td><td class="num">$12,299,366</td><td class="num">94.61%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px; font-size:14px;">2024 — tasa de eventos 0.837%, recuperación 89.35%</h4>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso</th><th class="num">Costos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Penal. Qualitas</th><th class="num">Utilidad (QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$1,399</td><td class="num">$128,601</td><td class="num">98.92%</td><td class="num">$1,783</td><td class="num">$126,819</td><td class="num">97.55%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$3,496</td><td class="num">$321,504</td><td class="num">98.92%</td><td class="num">$4,457</td><td class="num">$317,046</td><td class="num">97.55%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$6,993</td><td class="num">$643,007</td><td class="num">98.92%</td><td class="num">$8,914</td><td class="num">$634,093</td><td class="num">97.55%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$20,979</td><td class="num">$1,929,021</td><td class="num">98.92%</td><td class="num">$26,743</td><td class="num">$1,902,278</td><td class="num">97.55%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$34,964</td><td class="num">$3,215,036</td><td class="num">98.92%</td><td class="num">$44,572</td><td class="num">$3,170,464</td><td class="num">97.55%</td></tr>
+        <tr><td>1,000</td><td class="num">$6,500,000</td><td class="num">$69,929</td><td class="num">$6,430,071</td><td class="num">98.92%</td><td class="num">$89,144</td><td class="num">$6,340,927</td><td class="num">97.55%</td></tr>
+        <tr><td>2,000</td><td class="num">$13,000,000</td><td class="num">$139,857</td><td class="num">$12,860,143</td><td class="num">98.92%</td><td class="num">$178,288</td><td class="num">$12,681,854</td><td class="num">97.55%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px; font-size:14px;">2025 — tasa de eventos 1.304%, recuperación 87.61%</h4>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso</th><th class="num">Costos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Penal. Qualitas</th><th class="num">Utilidad (QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$2,130</td><td class="num">$127,870</td><td class="num">98.36%</td><td class="num">$3,232</td><td class="num">$124,638</td><td class="num">95.88%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$5,326</td><td class="num">$319,674</td><td class="num">98.36%</td><td class="num">$8,080</td><td class="num">$311,594</td><td class="num">95.88%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$10,651</td><td class="num">$639,349</td><td class="num">98.36%</td><td class="num">$16,160</td><td class="num">$623,188</td><td class="num">95.88%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$31,954</td><td class="num">$1,918,046</td><td class="num">98.36%</td><td class="num">$48,481</td><td class="num">$1,869,565</td><td class="num">95.88%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$53,256</td><td class="num">$3,196,744</td><td class="num">98.36%</td><td class="num">$80,802</td><td class="num">$3,115,942</td><td class="num">95.88%</td></tr>
+        <tr><td>1,000</td><td class="num">$6,500,000</td><td class="num">$106,512</td><td class="num">$6,393,488</td><td class="num">98.36%</td><td class="num">$161,604</td><td class="num">$6,231,884</td><td class="num">95.88%</td></tr>
+        <tr><td>2,000</td><td class="num">$13,000,000</td><td class="num">$213,024</td><td class="num">$12,786,976</td><td class="num">98.36%</td><td class="num">$323,209</td><td class="num">$12,463,768</td><td class="num">95.88%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px; font-size:14px;">2026 (ene-ago, real) — tasa de eventos 0.878% en 8 meses, recuperación 89.05%</h4>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso (8m)</th><th class="num">Costos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Penal. Qualitas</th><th class="num">Utilidad (QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$86,667</td><td class="num">$1,431</td><td class="num">$85,236</td><td class="num">98.35%</td><td class="num">$1,923</td><td class="num">$83,312</td><td class="num">96.13%</td></tr>
+        <tr><td>50</td><td class="num">$216,667</td><td class="num">$3,578</td><td class="num">$213,089</td><td class="num">98.35%</td><td class="num">$4,809</td><td class="num">$208,280</td><td class="num">96.13%</td></tr>
+        <tr><td>100</td><td class="num">$433,333</td><td class="num">$7,155</td><td class="num">$426,178</td><td class="num">98.35%</td><td class="num">$9,617</td><td class="num">$416,561</td><td class="num">96.13%</td></tr>
+        <tr><td>300</td><td class="num">$1,300,000</td><td class="num">$21,466</td><td class="num">$1,278,534</td><td class="num">98.35%</td><td class="num">$28,852</td><td class="num">$1,249,682</td><td class="num">96.13%</td></tr>
+        <tr><td>500</td><td class="num">$2,166,667</td><td class="num">$35,777</td><td class="num">$2,130,890</td><td class="num">98.35%</td><td class="num">$48,087</td><td class="num">$2,082,803</td><td class="num">96.13%</td></tr>
+        <tr><td>1,000</td><td class="num">$4,333,333</td><td class="num">$71,553</td><td class="num">$4,261,780</td><td class="num">98.35%</td><td class="num">$96,174</td><td class="num">$4,165,606</td><td class="num">96.13%</td></tr>
+        <tr><td>2,000</td><td class="num">$8,666,667</td><td class="num">$143,107</td><td class="num">$8,523,560</td><td class="num">98.35%</td><td class="num">$192,348</td><td class="num">$8,331,212</td><td class="num">96.13%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px; font-size:14px;">2026 (proyección cierre) — tasa de eventos 1.318%, recuperación 89.05%</h4>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso</th><th class="num">Costos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Penal. Qualitas</th><th class="num">Utilidad (QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$2,147</td><td class="num">$127,853</td><td class="num">98.35%</td><td class="num">$2,886</td><td class="num">$124,968</td><td class="num">96.13%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$5,367</td><td class="num">$319,634</td><td class="num">98.35%</td><td class="num">$7,214</td><td class="num">$312,420</td><td class="num">96.13%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$10,733</td><td class="num">$639,267</td><td class="num">98.35%</td><td class="num">$14,428</td><td class="num">$624,839</td><td class="num">96.13%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$32,199</td><td class="num">$1,917,801</td><td class="num">98.35%</td><td class="num">$43,283</td><td class="num">$1,874,518</td><td class="num">96.13%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$53,665</td><td class="num">$3,196,335</td><td class="num">98.35%</td><td class="num">$72,138</td><td class="num">$3,124,197</td><td class="num">96.13%</td></tr>
+        <tr><td>1,000</td><td class="num">$6,500,000</td><td class="num">$107,330</td><td class="num">$6,392,670</td><td class="num">98.35%</td><td class="num">$144,275</td><td class="num">$6,248,395</td><td class="num">96.13%</td></tr>
+        <tr><td>2,000</td><td class="num">$13,000,000</td><td class="num">$214,660</td><td class="num">$12,785,340</td><td class="num">98.35%</td><td class="num">$288,551</td><td class="num">$12,496,789</td><td class="num">96.13%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px; font-size:14px;">2027 (proyección) — tasa de eventos 1.257%, recuperación 88.0%</h4>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso</th><th class="num">Costos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Penal. Qualitas</th><th class="num">Utilidad (QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$2,040</td><td class="num">$127,960</td><td class="num">98.43%</td><td class="num">$3,016</td><td class="num">$124,944</td><td class="num">96.11%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$5,100</td><td class="num">$319,900</td><td class="num">98.43%</td><td class="num">$7,540</td><td class="num">$312,361</td><td class="num">96.11%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$10,199</td><td class="num">$639,801</td><td class="num">98.43%</td><td class="num">$15,079</td><td class="num">$624,722</td><td class="num">96.11%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$30,598</td><td class="num">$1,919,402</td><td class="num">98.43%</td><td class="num">$45,237</td><td class="num">$1,874,165</td><td class="num">96.11%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$50,996</td><td class="num">$3,199,004</td><td class="num">98.43%</td><td class="num">$75,396</td><td class="num">$3,123,608</td><td class="num">96.11%</td></tr>
+        <tr><td>1,000</td><td class="num">$6,500,000</td><td class="num">$101,993</td><td class="num">$6,398,007</td><td class="num">98.43%</td><td class="num">$150,791</td><td class="num">$6,247,216</td><td class="num">96.11%</td></tr>
+        <tr><td>2,000</td><td class="num">$13,000,000</td><td class="num">$203,986</td><td class="num">$12,796,014</td><td class="num">98.43%</td><td class="num">$301,583</td><td class="num">$12,494,431</td><td class="num">96.11%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>Metodología:</b> a diferencia de la pestaña "Escenarios Flota" (que usa las tasas fijas de 2025 de la hoja
+    "Supuestos", separadas por tipo Robo/Abuso/Cobranza), aquí uso la tasa de eventos y el % de recuperación
+    AGREGADOS de cada año de ESTA hoja (los que compartiste: recuperados, no recuperados y total de unidades por
+    año). Costos = ANERPV prorateado (unidades del cliente ÷ unidades totales de ese año) + viáticos (eventos
+    esperados del cliente × $8,000). "Penal. Qualitas" siempre aparece porque en NINGÚN año de 2023 a 2027 la
+    recuperación alcanza el 90% que exige Qualitas — a diferencia de la penalización interna, que da $0 en todos los
+    casos porque nunca cae debajo del 75%.
+  </div>
+  <div class="note">
+    <b>Lectura:</b> el margen apenas varía entre años (98.0%-98.9% interno; 94.6%-97.6% Qualitas) y es prácticamente
+    igual sin importar el tamaño del cliente (20 a 500 unidades) — porque tanto ingreso como costos escalan
+    proporcionalmente con las unidades. La diferencia real entre años no está en el margen, sino en qué tan grande
+    es la penalización de Qualitas en pesos: 2023 y 2025 (años con menor % de recuperación) le restan más margen
+    que 2024 (el año con mejor recuperación histórica, 89.35%).
   </div>
 </div>
 
@@ -676,65 +799,6 @@ function updateEC(){
 }
 ['ec-unidades','ec-paquete'].forEach(id => document.getElementById(id).addEventListener('input', updateEC));
 updateEC();
-
-// ---- Page 9: 2026 projection charts ----
-new Chart(document.getElementById('trendPctChart'), {
-  type: 'line',
-  data: {
-    labels: ['2023', '2024', '2025', '2026 (ene-ago)', '2026 (proyección)'],
-    datasets: [
-      { label: '% Recuperación', data: [85.94, 89.35, 87.61, 89.05, 89.05], borderColor: '#2a78d6', backgroundColor: 'rgba(42,120,214,0.08)', fill: true, tension: 0.25, pointRadius: 4, pointBackgroundColor: (ctx) => ctx.dataIndex === 4 ? '#c98500' : '#2a78d6' },
-      { label: 'Umbral interno (75%)', data: [75,75,75,75,75], borderColor: '#d03b3b', borderDash: [6,4], pointRadius: 0, fill: false },
-      { label: 'Umbral Qualitas (90%)', data: [90,90,90,90,90], borderColor: '#c98500', borderDash: [3,3], pointRadius: 0, fill: false }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } } },
-    scales: {
-      y: { min: 0, max: 100, ticks: { callback: (v) => v + '%' }, grid: { color: '#e1e0d9' } },
-      x: { grid: { display: false } }
-    }
-  }
-});
-
-new Chart(document.getElementById('penalCompareChart'), {
-  type: 'bar',
-  data: {
-    labels: ['2023', '2024', '2025', '2026 (ene-ago)', '2026 (proyección)'],
-    datasets: [
-      { label: 'Escenario INTERNO', data: [0,0,0,0,0], backgroundColor: '#898781', borderRadius: 4 },
-      { label: 'Escenario QUALITAS', data: [6300000,3600000,8800000,6000000,9000000], backgroundColor: '#c98500', borderRadius: 4 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } } },
-    scales: {
-      y: { ticks: { callback: (v) => '$' + (v/1000000) + 'M' }, grid: { color: '#e1e0d9' } },
-      x: { grid: { display: false } }
-    }
-  }
-});
-
-new Chart(document.getElementById('marginChart'), {
-  type: 'line',
-  data: {
-    labels: ['2023', '2024', '2025', '2026 (ene-ago)', '2026 (proyección)'],
-    datasets: [
-      { label: 'Margen — escenario INTERNO', data: [98.0, 98.9, 98.4, 98.3, 98.3], borderColor: '#008300', backgroundColor: 'rgba(0,131,0,0.06)', fill: false, tension: 0.2, pointRadius: 4 },
-      { label: 'Margen — si QUALITAS', data: [94.6, 97.6, 95.9, 96.1, 96.1], borderColor: '#c98500', backgroundColor: 'rgba(201,133,0,0.06)', fill: false, tension: 0.2, pointRadius: 4, borderDash: [5,3] }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } } },
-    scales: {
-      y: { min: 90, max: 100, ticks: { callback: (v) => v + '%' }, grid: { color: '#e1e0d9' } },
-      x: { grid: { display: false } }
-    }
-  }
-});
 </script>
 </body>
 </html>
