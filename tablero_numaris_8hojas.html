@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numaris — Análisis de Paquetes (8 hojas)</title>
+<style>
+  :root{
+    --bg:#f5f4f0; --card:#ffffff; --border:#e1e0d9;
+    --text:#0b0b0b; --text2:#52514e; --muted:#898781;
+    --blue:#2a78d6; --green:#008300; --amber:#c98500; --red:#d03b3b;
+    --headbg:#1f2a44;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text);}
+  .topbar{background:var(--headbg); color:#fff; padding:16px 24px;}
+  .topbar h1{font-size:19px; font-weight:600; margin:0 0 2px;}
+  .topbar p{font-size:13px; margin:0; opacity:.75;}
+  .tabs{
+    display:flex; flex-wrap:wrap; gap:4px; background:var(--headbg); padding:0 20px 12px;
+    position:sticky; top:0; z-index:10;
+  }
+  .tab-btn{
+    background:rgba(255,255,255,0.08); color:#fff; border:none; border-radius:8px 8px 0 0;
+    padding:9px 14px; font-size:13px; cursor:pointer; opacity:.7; white-space:nowrap;
+  }
+  .tab-btn.active{background:var(--bg); color:var(--text); opacity:1; font-weight:600;}
+  .page{display:none; padding:24px; max-width:1150px; margin:0 auto;}
+  .page.active{display:block;}
+  h2.page-title{font-size:20px; font-weight:600; margin:0 0 4px;}
+  .page-sub{color:var(--text2); font-size:13px; margin:0 0 20px;}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin-bottom:18px;}
+  .card h3{font-size:15px; font-weight:600; margin:0 0 12px;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th,td{text-align:left; padding:8px 9px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{color:var(--text2); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.02em;}
+  tr:last-child td{border-bottom:none;}
+  tr.section td{background:#eef0f5; font-weight:600;}
+  tr.total td{font-weight:600; border-top:1.5px solid var(--border);}
+  .num{text-align:right; font-variant-numeric:tabular-nums;}
+  .pill{display:inline-block; padding:3px 10px; border-radius:99px; font-size:12px; font-weight:600;}
+  .pill.ok{background:#eaf3de; color:#173404;}
+  .pill.warn{background:#faeeda; color:#412402;}
+  .pill.bad{background:#fcebeb; color:#501313;}
+  .note{font-size:12.5px; color:var(--text2); line-height:1.6; background:#faf9f6; border-left:3px solid var(--border); padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0;}
+  .kpi-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:18px;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px;}
+  .kpi .label{font-size:12px; color:var(--text2); margin:0 0 4px;}
+  .kpi .value{font-size:21px; font-weight:600; margin:0;}
+  .kpi .value.green{color:var(--green);} .kpi .value.red{color:var(--red);}
+  .chart-wrap{position:relative; width:100%; height:210px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media(max-width:800px){.grid2{grid-template-columns:1fr;} table{font-size:12px;}}
+  input.editable{width:60px; border:1px solid var(--border); border-radius:6px; padding:3px 6px; font-size:13px;}
+  select.editable{border:1px solid var(--border); border-radius:6px; padding:3px 6px; font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Numaris — Análisis de paquetes GPS y recuperación</h1>
+  <p>8 hojas del modelo, en una sola página · datos 2025</p>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab-btn active" data-page="p1">1. Supuestos</button>
+  <button class="tab-btn" data-page="p2">2. Escenarios Flota</button>
+  <button class="tab-btn" data-page="p3">3. Sensibilidad Penal.</button>
+  <button class="tab-btn" data-page="p4">4. Escenario Cliente</button>
+  <button class="tab-btn" data-page="p5">5. Descuento Volumen</button>
+  <button class="tab-btn" data-page="p6">6. Resumen Ejecutivo</button>
+  <button class="tab-btn" data-page="p7">7. Casos Reales</button>
+  <button class="tab-btn" data-page="p8">8. Sanciones</button>
+  <button class="tab-btn" data-page="p9">9. Proyección 2026</button>
+</div>
+
+<!-- PAGE 1: SUPUESTOS -->
+<div class="page active" id="p1">
+  <h2 class="page-title">Supuestos y parámetros del modelo</h2>
+  <p class="page-sub">El corazón del modelo — todo lo demás se calcula a partir de esta hoja</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Flota y precios de lista</h3>
+      <table>
+        <tr><td>Total de activos</td><td class="num">61,929</td></tr>
+        <tr><td>GPS (anual)</td><td class="num">$4,999</td></tr>
+        <tr><td>GPS BLE (anual)</td><td class="num">$999</td></tr>
+        <tr><td>Telemetría (anual)</td><td class="num">$7,200</td></tr>
+        <tr><td>Recuperación Nivel 1 (Robo)</td><td class="num">$999</td></tr>
+        <tr><td>Recuperación Nivel 2 (Abuso)</td><td class="num">$5,999</td></tr>
+        <tr><td>Recuperación Nivel 3 (Cobranza)</td><td class="num">$9,499</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Precio de paquetes anuales (calculado)</h3>
+      <table>
+        <tr><td>Rastreo (GPS + Niv.1)</td><td class="num">$5,998</td></tr>
+        <tr><td>Rastreo Plus (GPS + BLE + Niv.1)</td><td class="num">$6,997</td></tr>
+        <tr><td>Renta Diaria (GPS + Niv.1 + Niv.2)</td><td class="num">$11,997</td></tr>
+        <tr><td>Empeño (GPS + Niv.1 + Niv.3)</td><td class="num">$15,497</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Modelo actual (sin paquete)</h3>
+      <table>
+        <tr><td>Ingreso por rastreo (anual/unidad)</td><td class="num">$6,500</td></tr>
+        <tr><td>Cobro por evento — solo servicio (Abuso/Cobranza)</td><td class="num">$12,500</td></tr>
+        <tr><td>Cobro por evento de Robo</td><td class="num">—</td></tr>
+        <tr><td>Cobro por evento — TOTAL (servicio+viáticos)</td><td class="num">$20,500</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Costos operativos</h3>
+      <table>
+        <tr><td>ANERPV (anual, fijo)</td><td class="num">$120,000</td></tr>
+        <tr><td>Viáticos por evento (solo Abuso/Cobranza)</td><td class="num">$8,000</td></tr>
+        <tr><td>% mínimo de recuperación sin penalización</td><td class="num">75.0%</td></tr>
+        <tr><td>% de penalización sobre deducible</td><td class="num">10.0%</td></tr>
+        <tr><td>Valor promedio por unidad — Robo</td><td class="num">$1,000,000</td></tr>
+        <tr><td>Valor promedio por unidad — Abuso/Cobranza</td><td class="num">$300,000</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Eventos reales 2025 (total 709) y % de recuperación</h3>
+    <table>
+      <thead><tr><th>Tipo</th><th class="num">Recuperados</th><th class="num">No recuperados</th><th class="num">Total</th><th class="num">% Recuperación</th></tr></thead>
+      <tbody>
+        <tr><td>Robo</td><td class="num">413</td><td class="num">68</td><td class="num">481</td><td class="num">85.9%</td></tr>
+        <tr><td>Abuso</td><td class="num">47</td><td class="num">7</td><td class="num">54</td><td class="num">87.0%</td></tr>
+        <tr><td>Cobranza</td><td class="num">161</td><td class="num">13</td><td class="num">174</td><td class="num">92.5%</td></tr>
+        <tr class="total"><td>Total</td><td class="num">621</td><td class="num">88</td><td class="num">709</td><td class="num">87.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Tasas de evento sobre flota total: Robo 0.78%, Abuso 0.09%, Cobranza 0.28%, Total 1.14%.</div>
+</div>
+
+<!-- PAGE 2: ESCENARIOS FLOTA -->
+<div class="page" id="p2">
+  <h2 class="page-title">Ingreso anual por tamaño de flota</h2>
+  <p class="page-sub">Modelo actual vs. paquete nuevo, para flotas de 20 a 500 unidades</p>
+
+  <div class="card">
+    <h3>Rastreo (GPS + Niv.1) — <span class="pill bad">NO VIABLE en todos los tamaños</span></h3>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$119,960</td><td class="num">-$10,040</td><td class="num">-7.7%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$299,900</td><td class="num">-$25,100</td><td class="num">-7.7%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$599,800</td><td class="num">-$50,200</td><td class="num">-7.7%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$1,799,400</td><td class="num">-$150,600</td><td class="num">-7.7%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$2,999,000</td><td class="num">-$251,000</td><td class="num">-7.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Rastreo Plus (GPS + BLE + Niv.1) — <span class="pill ok">VIABLE</span></h3>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$139,940</td><td class="num">+$9,940</td><td class="num">+7.6%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$349,850</td><td class="num">+$24,850</td><td class="num">+7.6%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$699,700</td><td class="num">+$49,700</td><td class="num">+7.6%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$2,099,100</td><td class="num">+$149,100</td><td class="num">+7.6%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$3,498,500</td><td class="num">+$248,500</td><td class="num">+7.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Renta Diaria (GPS + Niv.1 + Niv.2) — <span class="pill ok">VIABLE</span></h3>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$239,940</td><td class="num">+$109,940</td><td class="num">+84.6%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$599,850</td><td class="num">+$274,850</td><td class="num">+84.6%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,199,700</td><td class="num">+$549,700</td><td class="num">+84.6%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$3,599,100</td><td class="num">+$1,649,100</td><td class="num">+84.6%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$5,998,500</td><td class="num">+$2,748,500</td><td class="num">+84.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Empeño (GPS + Niv.1 + Niv.3) — <span class="pill ok">VIABLE</span></h3>
+    <table>
+      <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th></tr></thead>
+      <tbody>
+        <tr><td>20</td><td class="num">$130,000</td><td class="num">$309,940</td><td class="num">+$179,940</td><td class="num">+138.4%</td></tr>
+        <tr><td>50</td><td class="num">$325,000</td><td class="num">$774,850</td><td class="num">+$449,850</td><td class="num">+138.4%</td></tr>
+        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,549,700</td><td class="num">+$899,700</td><td class="num">+138.4%</td></tr>
+        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$4,649,100</td><td class="num">+$2,699,100</td><td class="num">+138.4%</td></tr>
+        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$7,748,500</td><td class="num">+$4,498,500</td><td class="num">+138.4%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">Simulador de penalización por escenario — cambia el % de recuperación asumido y las unidades para ver el efecto (a la tasa real 2025, la penalización siempre da $0 porque todas las categorías recuperan &gt;75%):</div>
+  <div class="card">
+    <table>
+      <tr>
+        <td>Unidades: <input type="number" id="ef-unidades" class="editable" value="20" style="width:70px"></td>
+        <td>% Recuperación asumida: <input type="number" id="ef-rec" class="editable" value="70" style="width:60px">%</td>
+        <td>Valor por unidad: <select id="ef-valor" class="editable"><option value="1000000">Robo ($1,000,000)</option><option value="300000">Abuso/Cobranza ($300,000)</option></select></td>
+      </tr>
+    </table>
+    <p style="margin:12px 0 0; font-size:14px;">Unidades no recuperadas: <b id="ef-norec">6.0</b> · Penalización estimada: <b id="ef-penal" style="color:var(--red)">$600,000</b></p>
+  </div>
+  <div class="note">Resumen: a la tasa real 2025, Rastreo Plus, Renta Diaria y Empeño son VIABLES en los 5 tamaños de flota (20 a 500 u.). Rastreo simple es NO VIABLE en todos, porque su precio ($5,998) ya está por debajo del ingreso actual ($6,500).</div>
+</div>
+
+<!-- PAGE 3: SENSIBILIDAD PENALIZACION -->
+<div class="page" id="p3">
+  <h2 class="page-title">Recuperación real 2025 y riesgo de penalización</h2>
+  <p class="page-sub">Situación actual y qué pasaría si la recuperación cae</p>
+
+  <div class="card">
+    <h3>Situación real 2025 (por tipo)</h3>
+    <table>
+      <thead><tr><th>Tipo</th><th class="num">Eventos</th><th class="num">Recup.</th><th class="num">No recup.</th><th class="num">% Recup.</th><th>¿Penaliza?</th><th class="num">Valor unidad</th><th class="num">Monto</th></tr></thead>
+      <tbody>
+        <tr><td>Robo</td><td class="num">481</td><td class="num">413</td><td class="num">68</td><td class="num">85.9%</td><td><span class="pill ok">NO</span></td><td class="num">$1,000,000</td><td class="num">$0</td></tr>
+        <tr><td>Abuso</td><td class="num">54</td><td class="num">47</td><td class="num">7</td><td class="num">87.0%</td><td><span class="pill ok">NO</span></td><td class="num">$300,000</td><td class="num">$0</td></tr>
+        <tr><td>Cobranza</td><td class="num">174</td><td class="num">161</td><td class="num">13</td><td class="num">92.5%</td><td><span class="pill ok">NO</span></td><td class="num">$300,000</td><td class="num">$0</td></tr>
+        <tr class="total"><td>Total/Global</td><td class="num">709</td><td class="num">621</td><td class="num">88</td><td class="num">87.6%</td><td>—</td><td>—</td><td class="num">$0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Sensibilidad — si la recuperación cae</h3>
+    <div class="chart-wrap" style="height:250px;"><canvas id="sensChart" role="img" aria-label="Penalizacion por porcentaje de recuperacion"></canvas></div>
+    <table style="margin-top:14px;">
+      <thead><tr><th>% Recup.</th><th class="num">Penal. Robo</th><th class="num">Penal. Abuso+Cobranza</th><th class="num">Penal. TOTAL</th></tr></thead>
+      <tbody>
+        <tr><td>95%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
+        <tr><td>90%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
+        <tr><td>85%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
+        <tr><td>80%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
+        <tr><td>75%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
+        <tr><td>70%</td><td class="num">$14,400,000</td><td class="num">$2,040,000</td><td class="num">$16,440,000</td></tr>
+        <tr><td>65%</td><td class="num">$16,800,000</td><td class="num">$2,400,000</td><td class="num">$19,200,000</td></tr>
+        <tr><td>60%</td><td class="num">$19,200,000</td><td class="num">$2,730,000</td><td class="num">$21,930,000</td></tr>
+        <tr><td>55%</td><td class="num">$21,600,000</td><td class="num">$3,090,000</td><td class="num">$24,690,000</td></tr>
+        <tr><td>50%</td><td class="num">$24,100,000</td><td class="num">$3,420,000</td><td class="num">$27,520,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Robo pesa más en la penalización potencial ($1,000,000/unidad vs $300,000 Abuso/Cobranza) aun con menos eventos no recuperados. Una caída sostenida a 60% en Robo ya generaría varios millones de pesos de penalización.</div>
+</div>
+
+<!-- PAGE 4: ESCENARIO CLIENTE -->
+<div class="page" id="p4">
+  <h2 class="page-title">Escenario para el cliente: actual vs. con paquete</h2>
+  <p class="page-sub">Simulador — cambia unidades y paquete para generar el escenario de cualquier cliente</p>
+
+  <div class="card">
+    <table>
+      <tr><td>Unidades: <input type="number" id="ec-unidades" class="editable" value="50"></td>
+      <td>Paquete: <select id="ec-paquete" class="editable">
+        <option value="rastreo">Rastreo ($5,998)</option>
+        <option value="rastreoplus" selected>Rastreo Plus ($6,997)</option>
+        <option value="renta">Renta Diaria ($11,997)</option>
+        <option value="empeno">Empeño ($15,497)</option>
+      </select></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Concepto</th><th>Esquema actual (sin paquete)</th><th>Esquema con paquete (nuevo)</th></tr></thead>
+      <tbody>
+        <tr><td>Qué incluye</td><td>GPS (sólo rastreo, sin recuperación)</td><td id="ec-incluye">GPS + GPS BLE + Recuperación Nivel 1 (Robo)</td></tr>
+        <tr><td>Precio unitario anual</td><td class="num">$6,500</td><td class="num" id="ec-precio">$6,997</td></tr>
+        <tr><td>Precio unitario mensual</td><td class="num">$542</td><td class="num" id="ec-preciomes">$583</td></tr>
+        <tr><td>Recuperación incluida</td><td>No — se cobra aparte: $0 Robo, $20,500 Abuso/Cobranza</td><td>Sí, incluida en el precio</td></tr>
+        <tr><td>Ingreso anual estimado</td><td class="num" id="ec-ingactual">$325,000</td><td class="num" id="ec-ingpaquete">$349,850</td></tr>
+        <tr><td>Ingreso mensual estimado</td><td class="num" id="ec-ingactualmes">$27,083</td><td class="num" id="ec-ingpaquetemes">$29,154</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:14px 0 0; font-size:14px;">Diferencia anual: <b id="ec-diff" style="color:var(--green)">+$24,850 (+7.6%)</b></p>
+  </div>
+  <div class="note">El precio del esquema actual ($6,500) se paga siempre, ocurra o no un evento. Si ocurre Abuso/Cobranza ese año, el cliente paga ADEMÁS $20,500 (Robo no se cobra aparte) — muy por arriba del precio fijo del paquete. Ese riesgo de cargo inesperado es un buen argumento de venta a favor del paquete.</div>
+</div>
+
+<!-- PAGE 5: DESCUENTO VOLUMEN -->
+<div class="page" id="p5">
+  <h2 class="page-title">Viabilidad del descuento por volumen (flotas &gt;1,000 unidades)</h2>
+  <p class="page-sub">Cláusula original: facturación &gt;$20,000/unidad → comisión máx. 20%; con volumen, Niv.2 baja a $2,999-$3,500 y Niv.3 a $3,999-$4,500 por evento</p>
+
+  <div class="card">
+    <h3>Escenario A — descuento aplicado al PAQUETE anual — <span class="pill ok">VIABLE</span></h3>
+    <table>
+      <thead><tr><th>Paquete</th><th class="num">Precio desc. mín.</th><th class="num">Precio desc. máx.</th><th class="num">Margen mín. vs. actual</th><th class="num">Margen máx. vs. actual</th><th class="num">Ingreso total (1,000 u.)</th></tr></thead>
+      <tbody>
+        <tr><td>Renta Diaria</td><td class="num">$8,997</td><td class="num">$9,498</td><td class="num">+$2,497</td><td class="num">+$2,998</td><td class="num">$8,997,000 – $9,498,000</td></tr>
+        <tr><td>Empeño</td><td class="num">$9,997</td><td class="num">$10,498</td><td class="num">+$3,497</td><td class="num">+$3,998</td><td class="num">$9,997,000 – $10,498,000</td></tr>
+      </tbody>
+    </table>
+    <div class="note">El margen baja de ~$5,497 (Renta Diaria de lista) a $2,497-$2,998 con descuento, pero sigue siendo positivo y muy superior a los $6,500/año actuales — el paquete se cobra sobre TODAS las unidades cada año, y el costo de viáticos sólo se paga cuando ocurre un evento real.</div>
+  </div>
+
+  <div class="card">
+    <h3>Escenario B — descuento aplicado al COBRO POR EVENTO — <span class="pill bad">NO VIABLE</span></h3>
+    <table>
+      <thead><tr><th>Nivel</th><th class="num">Precio desc. mín.</th><th class="num">Precio desc. máx.</th><th class="num">Costo viáticos</th><th class="num">Margen mín.</th><th class="num">Margen máx.</th></tr></thead>
+      <tbody>
+        <tr><td>Nivel 2 (Abuso)</td><td class="num">$2,999</td><td class="num">$3,500</td><td class="num">$8,000</td><td class="num" style="color:var(--red)">-$5,001</td><td class="num" style="color:var(--red)">-$4,500</td></tr>
+        <tr><td>Nivel 3 (Cobranza)</td><td class="num">$3,999</td><td class="num">$4,500</td><td class="num">$8,000</td><td class="num" style="color:var(--red)">-$4,001</td><td class="num" style="color:var(--red)">-$3,500</td></tr>
+      </tbody>
+    </table>
+    <div class="note">El precio con descuento queda por debajo del costo fijo de viáticos ($8,000/evento). Cada recuperación real pierde dinero — el impacto total es acotado porque los eventos son poco frecuentes, pero cada evento individual pierde.</div>
+  </div>
+
+  <div class="card">
+    <h3>Conclusión</h3>
+    <p style="font-size:13.5px; line-height:1.7;">
+      <b>SÍ</b> es viable si el descuento se otorga dentro del <b>paquete anual</b> (Escenario A).<br>
+      <b>NO</b> es viable si se aplica directo al <b>cobro por evento</b> aislado (Escenario B).<br>
+      Recomendación: si un cliente de +1,000 unidades exige el descuento, ofrécelo sólo dentro del paquete anual.
+    </p>
+  </div>
+</div>
+
+<!-- PAGE 6: RESUMEN EJECUTIVO -->
+<div class="page" id="p6">
+  <h2 class="page-title">Resumen ejecutivo — modelo actual vs. nueva propuesta</h2>
+  <p class="page-sub">Comparativo maestro, costos, puntos a favor/en contra y recomendación final</p>
+
+  <div class="card">
+    <h3>Comparativo maestro — flota completa (61,929 unidades)</h3>
+    <table>
+      <thead><tr><th>Esquema</th><th class="num">Ingreso anual</th><th class="num">Costos anual</th><th class="num">Utilidad neta anual</th></tr></thead>
+      <tbody>
+        <tr><td>Esquema actual</td><td class="num">$407,212,500</td><td class="num">$1,944,000</td><td class="num">$405,268,500</td></tr>
+        <tr><td>Paquete Rastreo (no recomendado)</td><td class="num">$371,450,142</td><td class="num">$1,944,000</td><td class="num">$369,506,142</td></tr>
+        <tr><td>Paquete Rastreo Plus</td><td class="num">$433,317,213</td><td class="num">$1,944,000</td><td class="num">$431,373,213</td></tr>
+        <tr><td>Paquete Renta Diaria</td><td class="num">$742,962,213</td><td class="num">$1,944,000</td><td class="num">$741,018,213</td></tr>
+        <tr><td>Paquete Empeño</td><td class="num">$959,713,713</td><td class="num">$1,944,000</td><td class="num">$957,769,713</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Los costos operativos son los MISMOS en el esquema actual y en cualquier paquete — sólo cambia el ingreso, así que la utilidad neta crece en línea directa con el precio del paquete.</div>
+  </div>
+
+  <div class="card">
+    <h3>Desglose de costos operativos</h3>
+    <table>
+      <thead><tr><th>Concepto</th><th class="num">Anual</th><th class="num">Mensual</th></tr></thead>
+      <tbody>
+        <tr><td>ANERPV</td><td class="num">$120,000</td><td class="num">$10,000</td></tr>
+        <tr><td>Viáticos (228 eventos × $8,000)</td><td class="num">$1,824,000</td><td class="num">$152,000</td></tr>
+        <tr><td>Penalización real 2025</td><td class="num">$0</td><td class="num">$0</td></tr>
+        <tr class="total"><td>Total</td><td class="num">$1,944,000</td><td class="num">$162,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3 style="color:#173404;">Puntos a favor</h3>
+      <ul style="font-size:13px; line-height:1.7; padding-left:18px; margin:0;">
+        <li>Ingreso fijo y garantizado cada año.</li>
+        <li>Renta Diaria y Empeño: +$2,479 a +$8,939/unidad vs. hoy.</li>
+        <li>Rastreo Plus también supera el ingreso actual (+$497/u).</li>
+        <li>Riesgo de penalización bajo con datos reales 2025.</li>
+        <li>Los costos no cambian al empaquetar.</li>
+        <li>Evita al cliente un cargo grande e inesperado.</li>
+        <li>Rentable incluso con descuento por volumen.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:#501313;">Puntos en contra / riesgos</h3>
+      <ul style="font-size:13px; line-height:1.7; padding-left:18px; margin:0;">
+        <li>Rastreo simple reduce el ingreso: -$502/unidad/año.</li>
+        <li>Depende de mantener recuperación &gt;75%.</li>
+        <li>Renuncia a cobrar más en años excepcionalmente malos.</li>
+        <li>Costo real de operar la recuperación no cuantificado.</li>
+        <li>Costo de hardware no descontado del ingreso.</li>
+        <li>Cifras asumen migración del 100% de la flota.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Recomendación final</h3>
+    <table>
+      <thead><tr><th>Paquete / Esquema</th><th>Veredicto</th><th>Por qué</th></tr></thead>
+      <tbody>
+        <tr><td>Rastreo (sin BLE)</td><td><span class="pill bad">NO VENDER así</span></td><td>Reduce el ingreso vs. hoy (-$502/u).</td></tr>
+        <tr><td>Rastreo Plus</td><td><span class="pill ok">SÍ VENDER</span></td><td>Único "rastreo" que mejora el ingreso actual.</td></tr>
+        <tr><td>Renta Diaria</td><td><span class="pill ok">SÍ VENDER — prioridad alta</span></td><td>Ingreso muy superior al esquema actual.</td></tr>
+        <tr><td>Empeño</td><td><span class="pill ok">SÍ VENDER — prioridad más alta</span></td><td>El paquete más rentable de todos.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Pendiente de validar antes de fijar precios definitivos: costo real de operación de cada recuperación (más allá de viáticos) y costo de adquisición del hardware.</div>
+</div>
+
+<!-- PAGE 7: CASOS REALES -->
+<div class="page" id="p7">
+  <h2 class="page-title">Casos reales de clientes — eventos 2025</h2>
+  <p class="page-sub">4 clientes reales, parte de las estadísticas generales compartidas</p>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Cliente</th><th class="num">Unid.</th><th class="num">Eventos</th><th class="num">Recup.</th><th class="num">% Recup.</th><th>Paquete</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">ANERPV</th><th class="num">Viáticos</th><th class="num">Penal.</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>Multitravi</td><td class="num">67</td><td class="num">9</td><td class="num">9</td><td class="num">100.0%</td><td>Rastreo Plus</td><td class="num">$435,500</td><td class="num">$468,799</td><td class="num">$130</td><td class="num">—</td><td class="num">—</td><td><span class="pill ok">Sano</span></td></tr>
+        <tr><td>Alquiladora de Vehículos</td><td class="num">3,848</td><td class="num">48</td><td class="num">40</td><td class="num">83.3%</td><td>Renta Diaria</td><td class="num">$25,996,000</td><td class="num">$46,164,456</td><td class="num">$7,456</td><td class="num">$384,000</td><td class="num">—</td><td><span class="pill ok">Sano</span></td></tr>
+        <tr><td>Nacional Monte de Piedad</td><td class="num">4,205</td><td class="num">179</td><td class="num">166</td><td class="num">92.7%</td><td>Empeño</td><td class="num">$31,002,000</td><td class="num">$65,164,885</td><td class="num">$8,148</td><td class="num">$1,432,000</td><td class="num">—</td><td><span class="pill ok">Sano</span></td></tr>
+        <tr><td>Central Leasing</td><td class="num">1,162</td><td class="num">12</td><td class="num">2</td><td class="num">16.7%</td><td>Rastreo Plus</td><td class="num">$7,553,000</td><td class="num">$8,130,514</td><td class="num">$2,252</td><td class="num">—</td><td class="num">$300,000</td><td><span class="pill bad">Crítico</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-wrap" style="height:230px;"><canvas id="casosChart" role="img" aria-label="Recuperacion por cliente 2025"></canvas></div>
+
+  <div class="note"><b>Multitravi:</b> 100% recuperado, sin costos extra, sin viáticos (Robo). Ingreso sube +$33,299/año con el paquete.</div>
+  <div class="note"><b>Alquiladora:</b> 83.3% recuperado, sin penalización interna. Ingreso pasa de ~$26.0M a ~$46.2M/año.</div>
+  <div class="note"><b>Monte de Piedad:</b> 92.7% recuperado, el mejor % de los 4. Ingreso pasa de ~$31.0M a ~$65.2M/año.</div>
+  <div class="note" style="border-left-color:var(--red);"><b>Central Leasing — ALERTA:</b> sólo 16.7% recuperado, debajo del umbral de 75%. Penalización activa de $300,000. Aun así el paquete gana más que el actual (+$578,514/año) — pero el problema de fondo es operativo, no de precio.</div>
+</div>
+
+<!-- PAGE 8: SANCIONES -->
+<div class="page" id="p8">
+  <h2 class="page-title">Sanciones por aseguradora — Qualitas y GNP</h2>
+  <p class="page-sub">Reglas reales de sanción aplicadas a los 4 casos, comparadas contra el modelo interno</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Parámetros Qualitas</h3>
+      <table>
+        <tr><td>Objetivo de recuperación</td><td class="num">90%</td></tr>
+        <tr><td>Sanción por vehículo no recuperado fuera del objetivo</td><td class="num">$100,000</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Parámetros GNP (días de pago)</h3>
+      <table>
+        <tr><td>Mayor o igual a 95%</td><td class="num">7 días</td></tr>
+        <tr><td>Entre 85% y 94.9%</td><td class="num">15 días</td></tr>
+        <tr><td>Menor a 85%</td><td class="num">30 días</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="note">⚠ El % de cumplimiento de GNP NO es solo recuperación. Combina conectividad + tiempos de respuesta de servicios + tiempos de respuesta de recuperación, y la recuperación pesa solo 35% de esa fórmula. La columna de días de pago aquí es una <b>aproximación parcial</b> usando solo el % de recuperación, no el cálculo real de GNP.</div>
+
+  <div class="card">
+    <h3>Aplicación a los 4 casos reales</h3>
+    <table>
+      <thead><tr><th>Cliente</th><th class="num">% Recup.</th><th class="num">Sanción Qualitas</th><th>¿Cumple?</th><th class="num">Días pago GNP (aprox.)</th><th class="num">Sanción interno</th><th>¿Cuál mayor?</th></tr></thead>
+      <tbody>
+        <tr><td>Multitravi</td><td class="num">100.0%</td><td class="num">—</td><td><span class="pill ok">SI</span></td><td class="num">7</td><td class="num">—</td><td>Igual</td></tr>
+        <tr><td>Alquiladora</td><td class="num">83.3%</td><td class="num">$800,000</td><td><span class="pill bad">NO</span></td><td class="num">30</td><td class="num">—</td><td><b>Qualitas</b></td></tr>
+        <tr><td>Monte de Piedad</td><td class="num">92.7%</td><td class="num">—</td><td><span class="pill ok">SI</span></td><td class="num">15</td><td class="num">—</td><td>Igual</td></tr>
+        <tr><td>Central Leasing</td><td class="num">16.7%</td><td class="num">$1,000,000</td><td><span class="pill bad">NO</span></td><td class="num">30</td><td class="num">$300,000</td><td><b>Qualitas</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Conclusión</h3>
+    <p style="font-size:13.5px; line-height:1.7; margin:0;">
+      Qualitas es mucho más estricto que el modelo interno: umbral más alto (90% vs 75%) y sanción fija por vehículo
+      ($100,000) en vez de un porcentaje del valor. En Alquiladora (83.3%), el modelo interno no detecta ninguna
+      sanción, pero Qualitas sí le aplicaría $800,000 — un riesgo que el modelo interno no captura. GNP no castiga
+      en dinero, pero si hay muchos clientes tipo GNP con recuperación baja, el flujo de caja se ve afectado por
+      pagos que tardan hasta 30 días. Si Qualitas y/o GNP son aseguradoras con las que Numaris trabaja directamente,
+      conviene usar SUS reglas —no las internas— para calcular el riesgo real en esos contratos.
+    </p>
+  </div>
+</div>
+
+<!-- PAGE 9: PROYECCIÓN 2026 -->
+<div class="page" id="p9">
+  <h2 class="page-title">Proyección de cierre 2026 — 3 escenarios de penalización</h2>
+  <p class="page-sub">Histórico 2023-2025 real + 2026 enero-agosto real, proyectado a cierre de año (factor 12/8 = 1.5x)</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><p class="label">% Recuperación 2026 (ene-ago)</p><p class="value">89.05%</p></div>
+    <div class="kpi"><p class="label">% Recuperación proyectada cierre</p><p class="value">89.05%</p></div>
+    <div class="kpi"><p class="label">Unidades NO recup. proyectadas</p><p class="value red">90</p></div>
+    <div class="kpi"><p class="label">¿Supera umbral interno (75%)?</p><p class="value green">Sí — sin penal.</p></div>
+  </div>
+
+  <div class="card">
+    <h3>Datos históricos y proyección de cierre 2026</h3>
+    <table>
+      <thead><tr><th>Año</th><th class="num">Recuperados</th><th class="num">No recuperados</th><th class="num">Total unidades</th><th class="num">% Recuperación</th><th class="num">Monto recuperado</th><th class="num">Monto no recuperado</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td class="num">385</td><td class="num">63</td><td class="num">28,557</td><td class="num">85.94%</td><td class="num">$2,479,686,387</td><td class="num">$39,461,642</td></tr>
+        <tr><td>2024</td><td class="num">302</td><td class="num">36</td><td class="num">40,384</td><td class="num">89.35%</td><td class="num">$1,133,871,295</td><td class="num">$24,197,699</td></tr>
+        <tr><td>2025</td><td class="num">622</td><td class="num">88</td><td class="num">54,454</td><td class="num">87.61%</td><td class="num">$371,147,095</td><td class="num">$48,868,566</td></tr>
+        <tr><td>2026 (ene-ago, real)</td><td class="num">488</td><td class="num">60</td><td class="num">62,387</td><td class="num">89.05%</td><td class="num">$270,963,319</td><td class="num">$38,306,111</td></tr>
+        <tr class="total"><td>2026 (proyección cierre)</td><td class="num">732</td><td class="num">90</td><td class="num">62,387*</td><td class="num">89.05%</td><td class="num">$406,444,978</td><td class="num">$57,459,167</td></tr>
+      </tbody>
+    </table>
+    <div class="note">*Total de unidades se mantiene al último valor conocido (ago-2026); no se proyecta porque no es una variable de flujo anual. El resto (recuperados, no recuperados, montos) se proyecta multiplicando por 12/8, asumiendo que el ritmo de septiembre a diciembre se comporta igual que enero-agosto.</div>
+  </div>
+
+  <div class="chart-wrap" style="height:230px;"><canvas id="trendPctChart" role="img" aria-label="Porcentaje de recuperacion 2023 a proyeccion 2026"></canvas></div>
+
+  <h3 style="margin:28px 0 4px;">Los 3 escenarios de penalización, año por año</h3>
+  <p class="page-sub" style="margin-top:0;">Aplicando las reglas de INTERNO (10% del monto no recuperado si &lt;75%), QUALITAS ($100,000 fijo por unidad no recuperada si &lt;90%) y GNP (tramo de días de pago)</p>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Año</th><th class="num">% Recup.</th><th class="num">Escenario INTERNO</th><th class="num">Escenario QUALITAS</th><th>Escenario GNP</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td class="num">85.94%</td><td class="num">$0</td><td class="num">$6,300,000</td><td>15 días</td></tr>
+        <tr><td>2024</td><td class="num">89.35%</td><td class="num">$0</td><td class="num">$3,600,000</td><td>15 días</td></tr>
+        <tr><td>2025</td><td class="num">87.61%</td><td class="num">$0</td><td class="num">$8,800,000</td><td>15 días</td></tr>
+        <tr><td>2026 (ene-ago, real)</td><td class="num">89.05%</td><td class="num">$0</td><td class="num">$6,000,000</td><td>15 días</td></tr>
+        <tr class="total"><td>2026 (proyección cierre)</td><td class="num">89.05%</td><td class="num">$0</td><td class="num">$9,000,000</td><td>15 días</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-wrap" style="height:250px;"><canvas id="penalCompareChart" role="img" aria-label="Comparativo de penalizacion INTERNO vs QUALITAS por año"></canvas></div>
+
+  <div class="note" style="border-left-color:var(--red);">
+    <b>Hallazgo clave:</b> bajo el modelo INTERNO, la penalización siempre da $0 en los 4 años (nunca cae debajo de 75%
+    de recuperación). Pero bajo las reglas reales de QUALITAS (umbral 90%), Numaris <b>habría pagado penalización
+    los 4 años sin excepción</b> — entre $3.6M y $9.0M — porque la recuperación nunca alcanzó el 90% que exige Qualitas.
+    Si Qualitas es una aseguradora con la que se trabaja directamente, el riesgo real de penalización es
+    considerablemente mayor de lo que el modelo interno sugiere.
+  </div>
+  <div class="note">
+    <b>GNP:</b> los 4 años (incluyendo el cierre proyectado de 2026) caen en el tramo intermedio (85%-94.9%), es
+    decir, pago a 15 días hábiles — ningún año ha alcanzado el tramo más rápido de 7 días (que requiere ≥95% de
+    cumplimiento, aunque recordar que la fórmula real de GNP pesa la recuperación solo 35%, así que esta es una
+    aproximación).
+  </div>
+  <div class="note">
+    <b>Cierre 2026 proyectado:</b> si el patrón de enero-agosto se mantiene, 2026 cerraría con 732 unidades
+    recuperadas y 90 no recuperadas (89.05% de recuperación) — prácticamente igual a la tasa observada en 2024 y
+    2025. Bajo Qualitas, esto representaría la penalización más alta de los 4 años ($9,000,000), simplemente porque
+    el volumen total de eventos también es el más alto proyectado.
+  </div>
+
+  <h3 style="margin:28px 0 4px;">Utilidad y margen del negocio, año por año</h3>
+  <p class="page-sub" style="margin-top:0;">Ingreso = Total de unidades del año × $6,500 (rastreo base). Costos = ANERPV + viáticos (eventos × $8,000). Comparando la utilidad si la penalización sigue reglas INTERNAS vs. si siguiera reglas QUALITAS.</p>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Año</th><th class="num">Ingreso</th><th class="num">ANERPV</th><th class="num">Viáticos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Utilidad (si QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td class="num">$185,620,500</td><td class="num">$120,000</td><td class="num">$3,584,000</td><td class="num">$181,916,500</td><td class="num">98.0%</td><td class="num">$175,616,500</td><td class="num">94.6%</td></tr>
+        <tr><td>2024</td><td class="num">$262,496,000</td><td class="num">$120,000</td><td class="num">$2,704,000</td><td class="num">$259,672,000</td><td class="num">98.9%</td><td class="num">$256,072,000</td><td class="num">97.6%</td></tr>
+        <tr><td>2025</td><td class="num">$353,951,000</td><td class="num">$120,000</td><td class="num">$5,680,000</td><td class="num">$348,151,000</td><td class="num">98.4%</td><td class="num">$339,351,000</td><td class="num">95.9%</td></tr>
+        <tr><td>2026 (ene-ago, real)</td><td class="num">$270,343,667</td><td class="num">$80,000</td><td class="num">$4,384,000</td><td class="num">$265,879,667</td><td class="num">98.3%</td><td class="num">$259,879,667</td><td class="num">96.1%</td></tr>
+        <tr class="total"><td>2026 (proyección cierre)</td><td class="num">$405,515,500</td><td class="num">$120,000</td><td class="num">$6,576,000</td><td class="num">$398,819,500</td><td class="num">98.3%</td><td class="num">$389,819,500</td><td class="num">96.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-wrap" style="height:250px;"><canvas id="marginChart" role="img" aria-label="Margen del negocio por año, escenario interno vs qualitas"></canvas></div>
+
+  <div class="note">
+    <b>Lectura:</b> el margen se mantiene muy alto (94.6%-98.9%) en ambos escenarios porque el ingreso base de
+    rastreo ($6,500 × todas las unidades) es mucho mayor que los costos de operar la recuperación. Aun así, adoptar
+    las reglas de Qualitas le resta entre 1.1 y 3.4 puntos porcentuales de margen cada año — en 2026 proyectado,
+    la diferencia entre ambos escenarios es de <b>$9,000,000</b> de utilidad, sólo por el cambio en la regla de
+    penalización aplicada.
+  </div>
+  <div class="note">
+    <b>Importante — supuesto de esta hoja:</b> el ingreso ($6,500/unidad) y el costo de viáticos ($8,000/evento) se
+    aplican aquí sobre el TOTAL de eventos de cada año sin distinguir Robo/Abuso/Cobranza (esta tabla histórica no
+    trae ese desglose por tipo, a diferencia de la hoja "Supuestos"). Si en algún año la mezcla de tipos de evento
+    fue muy distinta a 2025 (67.8% Robo / 32.2% Abuso+Cobranza), el costo real de viáticos podría ser algo menor,
+    ya que el Robo no genera viáticos.
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+Chart.defaults.font.family = "-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
+Chart.defaults.color = '#52514e';
+
+// tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.page).classList.add('active');
+  });
+});
+
+// Page 3: sensitivity chart
+new Chart(document.getElementById('sensChart'), {
+  type: 'line',
+  data: {
+    labels: ['95%','90%','85%','80%','75%','70%','65%','60%','55%','50%'],
+    datasets: [{
+      label: 'Penalización total',
+      data: [0,0,0,0,0,16440000,19200000,21930000,24690000,27520000],
+      borderColor: '#d03b3b', backgroundColor: 'rgba(208,59,59,0.08)', fill: true, tension: 0.2, pointRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: (v) => '$' + (v/1000000) + 'M' }, grid: { color: '#e1e0d9' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Page 7: client recovery chart
+new Chart(document.getElementById('casosChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Multitravi', 'Alquiladora', 'Monte de Piedad', 'Central Leasing'],
+    datasets: [{
+      label: '% Recuperación',
+      data: [100, 83.3, 92.7, 16.7],
+      backgroundColor: ['#008300', '#c98500', '#008300', '#d03b3b'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { y: { min:0, max:100, ticks: { callback: (v) => v + '%' }, grid: { color: '#e1e0d9' } }, x: { grid: { display: false } } }
+  }
+});
+
+// ---- Page 2: penalización simulator ----
+function fmtMoney(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+function updateEF(){
+  const unidades = parseFloat(document.getElementById('ef-unidades').value) || 0;
+  const rec = parseFloat(document.getElementById('ef-rec').value) / 100;
+  const valor = parseFloat(document.getElementById('ef-valor').value);
+  const noRec = unidades * (1 - rec);
+  const penal = rec < 0.75 ? noRec * valor * 0.10 : 0;
+  document.getElementById('ef-norec').textContent = noRec.toFixed(1);
+  document.getElementById('ef-penal').textContent = fmtMoney(penal);
+}
+['ef-unidades','ef-rec','ef-valor'].forEach(id => document.getElementById(id).addEventListener('input', updateEF));
+updateEF();
+
+// ---- Page 4: client scenario simulator ----
+const paquetes = {
+  rastreo:      { precio: 5998,  incluye: 'GPS + Recuperación Nivel 1 (Robo)' },
+  rastreoplus:  { precio: 6997,  incluye: 'GPS + GPS BLE + Recuperación Nivel 1 (Robo)' },
+  renta:        { precio: 11997, incluye: 'GPS + Recuperación Nivel 1 (Robo) + Nivel 2 (Abuso)' },
+  empeno:       { precio: 15497, incluye: 'GPS + Recuperación Nivel 1 (Robo) + Nivel 3 (Cobranza)' },
+};
+function updateEC(){
+  const unidades = parseFloat(document.getElementById('ec-unidades').value) || 0;
+  const key = document.getElementById('ec-paquete').value;
+  const p = paquetes[key];
+  const ingActual = unidades * 6500;
+  const ingPaquete = unidades * p.precio;
+  const diff = ingPaquete - ingActual;
+  const pct = ingActual ? (diff / ingActual * 100) : 0;
+  document.getElementById('ec-incluye').textContent = p.incluye;
+  document.getElementById('ec-precio').textContent = fmtMoney(p.precio);
+  document.getElementById('ec-preciomes').textContent = fmtMoney(p.precio/12);
+  document.getElementById('ec-ingactual').textContent = fmtMoney(ingActual);
+  document.getElementById('ec-ingpaquete').textContent = fmtMoney(ingPaquete);
+  document.getElementById('ec-ingactualmes').textContent = fmtMoney(ingActual/12);
+  document.getElementById('ec-ingpaquetemes').textContent = fmtMoney(ingPaquete/12);
+  const diffEl = document.getElementById('ec-diff');
+  diffEl.textContent = (diff>=0?'+':'') + fmtMoney(diff) + ' (' + (diff>=0?'+':'') + pct.toFixed(1) + '%)';
+  diffEl.style.color = diff>=0 ? 'var(--green)' : 'var(--red)';
+}
+['ec-unidades','ec-paquete'].forEach(id => document.getElementById(id).addEventListener('input', updateEC));
+updateEC();
+
+// ---- Page 9: 2026 projection charts ----
+new Chart(document.getElementById('trendPctChart'), {
+  type: 'line',
+  data: {
+    labels: ['2023', '2024', '2025', '2026 (ene-ago)', '2026 (proyección)'],
+    datasets: [
+      { label: '% Recuperación', data: [85.94, 89.35, 87.61, 89.05, 89.05], borderColor: '#2a78d6', backgroundColor: 'rgba(42,120,214,0.08)', fill: true, tension: 0.25, pointRadius: 4, pointBackgroundColor: (ctx) => ctx.dataIndex === 4 ? '#c98500' : '#2a78d6' },
+      { label: 'Umbral interno (75%)', data: [75,75,75,75,75], borderColor: '#d03b3b', borderDash: [6,4], pointRadius: 0, fill: false },
+      { label: 'Umbral Qualitas (90%)', data: [90,90,90,90,90], borderColor: '#c98500', borderDash: [3,3], pointRadius: 0, fill: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } } },
+    scales: {
+      y: { min: 0, max: 100, ticks: { callback: (v) => v + '%' }, grid: { color: '#e1e0d9' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('penalCompareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2023', '2024', '2025', '2026 (ene-ago)', '2026 (proyección)'],
+    datasets: [
+      { label: 'Escenario INTERNO', data: [0,0,0,0,0], backgroundColor: '#898781', borderRadius: 4 },
+      { label: 'Escenario QUALITAS', data: [6300000,3600000,8800000,6000000,9000000], backgroundColor: '#c98500', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } } },
+    scales: {
+      y: { ticks: { callback: (v) => '$' + (v/1000000) + 'M' }, grid: { color: '#e1e0d9' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('marginChart'), {
+  type: 'line',
+  data: {
+    labels: ['2023', '2024', '2025', '2026 (ene-ago)', '2026 (proyección)'],
+    datasets: [
+      { label: 'Margen — escenario INTERNO', data: [98.0, 98.9, 98.4, 98.3, 98.3], borderColor: '#008300', backgroundColor: 'rgba(0,131,0,0.06)', fill: false, tension: 0.2, pointRadius: 4 },
+      { label: 'Margen — si QUALITAS', data: [94.6, 97.6, 95.9, 96.1, 96.1], borderColor: '#c98500', backgroundColor: 'rgba(201,133,0,0.06)', fill: false, tension: 0.2, pointRadius: 4, borderDash: [5,3] }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } } },
+    scales: {
+      y: { min: 90, max: 100, ticks: { callback: (v) => v + '%' }, grid: { color: '#e1e0d9' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
