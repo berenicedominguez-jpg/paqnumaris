@@ -85,22 +85,21 @@
     <div class="card">
       <h3>Flota y precios de lista</h3>
       <table>
-        <tr><td>Total de activos</td><td class="num">61,929</td></tr>
-        <tr><td>GPS (anual)</td><td class="num">$4,999</td></tr>
-        <tr><td>GPS BLE (anual)</td><td class="num">$999</td></tr>
-        <tr><td>Telemetría (anual)</td><td class="num">$7,200</td></tr>
-        <tr><td>Recuperación Nivel 1 (Robo)</td><td class="num">$999</td></tr>
-        <tr><td>Recuperación Nivel 2 (Abuso)</td><td class="num">$5,999</td></tr>
-        <tr><td>Recuperación Nivel 3 (Cobranza)</td><td class="num">$9,499</td></tr>
+        <tr><td>Total de activos</td><td class="num" id="s1-total">—</td></tr>
+        <tr><td>GPS (anual)</td><td class="num" id="s1-gps">—</td></tr>
+        <tr><td>GPS BLE (anual)</td><td class="num" id="s1-ble">—</td></tr>
+        <tr><td>Recuperación Nivel 1 (Robo)</td><td class="num" id="s1-n1">—</td></tr>
+        <tr><td>Recuperación Nivel 2 (Abuso)</td><td class="num" id="s1-n2">—</td></tr>
+        <tr><td>Recuperación Nivel 3 (Cobranza)</td><td class="num" id="s1-n3">—</td></tr>
       </table>
     </div>
     <div class="card">
       <h3>Precio de paquetes anuales (calculado)</h3>
       <table>
-        <tr><td>Rastreo (GPS + Niv.1)</td><td class="num">$5,998</td></tr>
-        <tr><td>Rastreo Plus (GPS + BLE + Niv.1)</td><td class="num">$6,997</td></tr>
-        <tr><td>Renta Diaria (GPS + Niv.1 + Niv.2)</td><td class="num">$11,997</td></tr>
-        <tr><td>Empeño (GPS + Niv.1 + Niv.3)</td><td class="num">$15,497</td></tr>
+        <tr><td>Rastreo (GPS + Niv.1)</td><td class="num" id="s1-rastreo">—</td></tr>
+        <tr><td>Rastreo Plus (GPS + BLE + Niv.1)</td><td class="num" id="s1-rastreoplus">—</td></tr>
+        <tr><td>Renta Diaria (GPS + Niv.1 + Niv.2)</td><td class="num" id="s1-renta">—</td></tr>
+        <tr><td>Empeño (GPS + Niv.1 + Niv.3)</td><td class="num" id="s1-empeno">—</td></tr>
       </table>
     </div>
   </div>
@@ -109,38 +108,38 @@
     <div class="card">
       <h3>Modelo actual (sin paquete)</h3>
       <table>
-        <tr><td>Ingreso por rastreo (anual/unidad)</td><td class="num">$6,500</td></tr>
-        <tr><td>Cobro por evento — solo servicio (Abuso/Cobranza)</td><td class="num">$12,500</td></tr>
-        <tr><td>Cobro por evento de Robo</td><td class="num">—</td></tr>
-        <tr><td>Cobro por evento — TOTAL (servicio+viáticos)</td><td class="num">$20,500</td></tr>
+        <tr><td>Ingreso por rastreo (anual/unidad)</td><td class="num" id="s1-ingactual">—</td></tr>
+        <tr><td>Cobro por evento — solo servicio (Abuso/Cobranza)</td><td class="num" id="s1-cobroservicio">—</td></tr>
+        <tr><td>Cobro por evento de Robo</td><td class="num" id="s1-cobrorobo">—</td></tr>
+        <tr><td>Cobro por evento — TOTAL (servicio+viáticos)</td><td class="num" id="s1-cobrototal">—</td></tr>
       </table>
     </div>
     <div class="card">
       <h3>Costos operativos</h3>
       <table>
-        <tr><td>ANERPV (anual, fijo)</td><td class="num">$120,000</td></tr>
-        <tr><td>Viáticos por evento (solo Abuso/Cobranza)</td><td class="num">$8,000</td></tr>
-        <tr><td>% mínimo de recuperación sin penalización</td><td class="num">75.0%</td></tr>
-        <tr><td>% de penalización sobre deducible</td><td class="num">10.0%</td></tr>
-        <tr><td>Valor promedio por unidad — Robo</td><td class="num">$1,000,000</td></tr>
-        <tr><td>Valor promedio por unidad — Abuso/Cobranza</td><td class="num">$300,000</td></tr>
+        <tr><td>ANERPV (anual, fijo)</td><td class="num" id="s1-anerpv">—</td></tr>
+        <tr><td>Viáticos por evento (solo Abuso/Cobranza)</td><td class="num" id="s1-viaticos">—</td></tr>
+        <tr><td>% mínimo de recuperación sin penalización</td><td class="num" id="s1-umbral">—</td></tr>
+        <tr><td>% de penalización sobre deducible</td><td class="num" id="s1-pctpenal">—</td></tr>
+        <tr><td>Valor promedio por unidad — Pesado (Robo)</td><td class="num" id="s1-valorpesado">—</td></tr>
+        <tr><td>Valor promedio por unidad — Ligero (Abuso/Cobranza)</td><td class="num" id="s1-valorligero">—</td></tr>
       </table>
     </div>
   </div>
 
   <div class="card">
-    <h3>Eventos reales 2025 (total 709) y % de recuperación</h3>
+    <h3>Eventos reales (último dato conectado) y % de recuperación</h3>
     <table>
       <thead><tr><th>Tipo</th><th class="num">Recuperados</th><th class="num">No recuperados</th><th class="num">Total</th><th class="num">% Recuperación</th></tr></thead>
       <tbody>
-        <tr><td>Robo</td><td class="num">413</td><td class="num">68</td><td class="num">481</td><td class="num">85.9%</td></tr>
-        <tr><td>Abuso</td><td class="num">47</td><td class="num">7</td><td class="num">54</td><td class="num">87.0%</td></tr>
-        <tr><td>Cobranza</td><td class="num">161</td><td class="num">13</td><td class="num">174</td><td class="num">92.5%</td></tr>
-        <tr class="total"><td>Total</td><td class="num">621</td><td class="num">88</td><td class="num">709</td><td class="num">87.6%</td></tr>
+        <tr><td>Robo</td><td class="num" id="s1-robo-rec">—</td><td class="num" id="s1-robo-norec">—</td><td class="num" id="s1-robo-total">—</td><td class="num" id="s1-robo-pct">—</td></tr>
+        <tr><td>Abuso</td><td class="num" id="s1-abuso-rec">—</td><td class="num" id="s1-abuso-norec">—</td><td class="num" id="s1-abuso-total">—</td><td class="num" id="s1-abuso-pct">—</td></tr>
+        <tr><td>Cobranza</td><td class="num" id="s1-cobranza-rec">—</td><td class="num" id="s1-cobranza-norec">—</td><td class="num" id="s1-cobranza-total">—</td><td class="num" id="s1-cobranza-pct">—</td></tr>
+        <tr class="total"><td>Total</td><td class="num" id="s1-tot-rec">—</td><td class="num" id="s1-tot-norec">—</td><td class="num" id="s1-tot-total">—</td><td class="num" id="s1-tot-pct">—</td></tr>
       </tbody>
     </table>
   </div>
-  <div class="note">Tasas de evento sobre flota total: Robo 0.78%, Abuso 0.09%, Cobranza 0.28%, Total 1.14%.</div>
+  <div class="note" id="s1-tasas">Tasas de evento sobre flota total: cargando…</div>
 </div>
 
 <!-- PAGE 2: ESCENARIOS FLOTA -->
@@ -148,63 +147,39 @@
   <h2 class="page-title">Ingreso anual por tamaño de flota</h2>
   <p class="page-sub">Modelo actual vs. paquete nuevo, para flotas de 20 a 500 unidades</p>
 
-  <div class="card">
+  <div class="card" id="p2-rastreo">
     <h3>Rastreo (GPS + Niv.1) — <span class="pill bad">NO VIABLE en todos los tamaños</span></h3>
     <table>
       <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$119,960</td><td class="num">-$10,040</td><td class="num">-7.7%</td><td class="num">$39</td><td class="num">$129,961</td><td class="num">99.97%</td><td class="num">$119,921</td><td class="num">99.97%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$299,900</td><td class="num">-$25,100</td><td class="num">-7.7%</td><td class="num">$97</td><td class="num">$324,903</td><td class="num">99.97%</td><td class="num">$299,803</td><td class="num">99.97%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$599,800</td><td class="num">-$50,200</td><td class="num">-7.7%</td><td class="num">$194</td><td class="num">$649,806</td><td class="num">99.97%</td><td class="num">$599,606</td><td class="num">99.97%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$1,799,400</td><td class="num">-$150,600</td><td class="num">-7.7%</td><td class="num">$581</td><td class="num">$1,949,419</td><td class="num">99.97%</td><td class="num">$1,798,819</td><td class="num">99.97%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$2,999,000</td><td class="num">-$251,000</td><td class="num">-7.7%</td><td class="num">$969</td><td class="num">$3,249,031</td><td class="num">99.97%</td><td class="num">$2,998,031</td><td class="num">99.97%</td></tr>
-      </tbody>
+      <tbody id="p2-rastreo-tbody"><tr><td colspan="10" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
-  <div class="card">
+  <div class="card" id="p2-rastreoplus">
     <h3>Rastreo Plus (GPS + BLE + Niv.1) — <span class="pill ok">VIABLE</span></h3>
     <table>
       <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$139,940</td><td class="num">+$9,940</td><td class="num">+7.6%</td><td class="num">$39</td><td class="num">$129,961</td><td class="num">99.97%</td><td class="num">$139,901</td><td class="num">99.97%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$349,850</td><td class="num">+$24,850</td><td class="num">+7.6%</td><td class="num">$97</td><td class="num">$324,903</td><td class="num">99.97%</td><td class="num">$349,753</td><td class="num">99.97%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$699,700</td><td class="num">+$49,700</td><td class="num">+7.6%</td><td class="num">$194</td><td class="num">$649,806</td><td class="num">99.97%</td><td class="num">$699,506</td><td class="num">99.97%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$2,099,100</td><td class="num">+$149,100</td><td class="num">+7.6%</td><td class="num">$581</td><td class="num">$1,949,419</td><td class="num">99.97%</td><td class="num">$2,098,519</td><td class="num">99.97%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$3,498,500</td><td class="num">+$248,500</td><td class="num">+7.6%</td><td class="num">$969</td><td class="num">$3,249,031</td><td class="num">99.97%</td><td class="num">$3,497,531</td><td class="num">99.97%</td></tr>
-      </tbody>
+      <tbody id="p2-rastreoplus-tbody"><tr><td colspan="10" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
-  <div class="card">
+  <div class="card" id="p2-renta">
     <h3>Renta Diaria (GPS + Niv.1 + Niv.2) — <span class="pill ok">VIABLE</span></h3>
     <table>
       <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$239,940</td><td class="num">+$109,940</td><td class="num">+84.6%</td><td class="num">$178</td><td class="num">$129,822</td><td class="num">99.86%</td><td class="num">$239,762</td><td class="num">99.93%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$599,850</td><td class="num">+$274,850</td><td class="num">+84.6%</td><td class="num">$446</td><td class="num">$324,554</td><td class="num">99.86%</td><td class="num">$599,404</td><td class="num">99.93%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,199,700</td><td class="num">+$549,700</td><td class="num">+84.6%</td><td class="num">$891</td><td class="num">$649,109</td><td class="num">99.86%</td><td class="num">$1,198,809</td><td class="num">99.93%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$3,599,100</td><td class="num">+$1,649,100</td><td class="num">+84.6%</td><td class="num">$2,674</td><td class="num">$1,947,326</td><td class="num">99.86%</td><td class="num">$3,596,426</td><td class="num">99.93%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$5,998,500</td><td class="num">+$2,748,500</td><td class="num">+84.6%</td><td class="num">$4,457</td><td class="num">$3,245,543</td><td class="num">99.86%</td><td class="num">$5,994,043</td><td class="num">99.93%</td></tr>
-      </tbody>
+      <tbody id="p2-renta-tbody"><tr><td colspan="10" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
-  <div class="card">
+  <div class="card" id="p2-empeno">
     <h3>Empeño (GPS + Niv.1 + Niv.3) — <span class="pill ok">VIABLE</span></h3>
     <table>
       <thead><tr><th>Unidades</th><th class="num">Ingreso actual</th><th class="num">Ingreso paquete</th><th class="num">Diferencia</th><th class="num">%</th><th class="num">Costos</th><th class="num">Utilidad actual</th><th class="num">Margen actual</th><th class="num">Utilidad paquete</th><th class="num">Margen paquete</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$130,000</td><td class="num">$309,940</td><td class="num">+$179,940</td><td class="num">+138.4%</td><td class="num">$488</td><td class="num">$129,512</td><td class="num">99.62%</td><td class="num">$309,452</td><td class="num">99.84%</td></tr>
-        <tr><td>50</td><td class="num">$325,000</td><td class="num">$774,850</td><td class="num">+$449,850</td><td class="num">+138.4%</td><td class="num">$1,221</td><td class="num">$323,779</td><td class="num">99.62%</td><td class="num">$773,629</td><td class="num">99.84%</td></tr>
-        <tr><td>100</td><td class="num">$650,000</td><td class="num">$1,549,700</td><td class="num">+$899,700</td><td class="num">+138.4%</td><td class="num">$2,442</td><td class="num">$647,558</td><td class="num">99.62%</td><td class="num">$1,547,258</td><td class="num">99.84%</td></tr>
-        <tr><td>300</td><td class="num">$1,950,000</td><td class="num">$4,649,100</td><td class="num">+$2,699,100</td><td class="num">+138.4%</td><td class="num">$7,325</td><td class="num">$1,942,675</td><td class="num">99.62%</td><td class="num">$4,641,775</td><td class="num">99.84%</td></tr>
-        <tr><td>500</td><td class="num">$3,250,000</td><td class="num">$7,748,500</td><td class="num">+$4,498,500</td><td class="num">+138.4%</td><td class="num">$12,208</td><td class="num">$3,237,792</td><td class="num">99.62%</td><td class="num">$7,736,292</td><td class="num">99.84%</td></tr>
-      </tbody>
+      <tbody id="p2-empeno-tbody"><tr><td colspan="10" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
-  <div class="note">Cómo se calcula: Costos = ANERPV prorateado (según unidades del cliente sobre el total de flota, 61,929) + viáticos (eventos esperados × $8,000 — sólo aplica en Renta Diaria y Empeño; Rastreo y Rastreo Plus no pagan viáticos porque son de tipo Robo). Utilidad = Ingreso − Costos. Margen = Utilidad ÷ Ingreso. A este tamaño de cliente, los costos son tan pequeños frente al ingreso que el margen siempre queda arriba de 99.6% en los 4 paquetes — la penalización (que sí puede afectar el margen de forma importante) no está incluida aquí porque a la tasa real de recuperación 2025 siempre da $0; ver el simulador de abajo para ver el efecto si la recuperación cae.</div>
+  <div class="note">Cómo se calcula: Costos = ANERPV prorateado (según unidades del cliente sobre el total de flota) + viáticos (eventos esperados × viáticos/evento — sólo aplica en Renta Diaria y Empeño; Rastreo y Rastreo Plus no pagan viáticos porque son de tipo Robo). Utilidad = Ingreso − Costos. Margen = Utilidad ÷ Ingreso.</div>
 
   <div class="note">Simulador de penalización por escenario — cambia el % de recuperación asumido y las unidades para ver el efecto (a la tasa real 2025, la penalización siempre da $0 porque todas las categorías recuperan &gt;75%):</div>
   <div class="card">
@@ -942,6 +917,11 @@ updateEC();
     ING_ACTUAL: 6500, COBRO_EVENTO_SERVICIO: 12500, COBRO_EVENTO_ROBO: 0, COBRO_EVENTO_TOTAL: 20500,
     ANERPV: 120000, VIATICOS: 8000, UMBRAL_INTERNO: 0.75, PCT_PENAL: 0.10,
     VALOR_PESADO: 1000000, VALOR_LIGERO: 300000,
+    ROBO_REC: 413, ROBO_NOREC: 68, ROBO_TOTAL: 481,
+    ABUSO_REC: 47, ABUSO_NOREC: 7, ABUSO_TOTAL: 54,
+    COBRANZA_REC: 161, COBRANZA_NOREC: 13, COBRANZA_TOTAL: 174,
+    TASA_REC_ROBO: 413/481, TASA_REC_ABUSO: 47/54, TASA_REC_COBRANZA: 161/174,
+    TASA_ROBO: 481/61929, TASA_ABUSO: 54/61929, TASA_COBRANZA: 174/61929,
   };
   const FALLBACK_DATOS_RAW = [
     [2023, 385, 63, 28557, 2479686387.00, 39461642.00],
@@ -978,6 +958,21 @@ updateEC();
       else if (has(label,'penalización sobre deducible')) s.PCT_PENAL = n;
       else if (has(label,'PESADO')) s.VALOR_PESADO = n;
       else if (has(label,'LIGERO')) s.VALOR_LIGERO = n;
+      else if (has(label,'Robo — recuperados')) s.ROBO_REC = n;
+      else if (has(label,'Robo — NO recuperados')) s.ROBO_NOREC = n;
+      else if (has(label,'Robo — total')) s.ROBO_TOTAL = n;
+      else if (has(label,'Abuso — recuperados')) s.ABUSO_REC = n;
+      else if (has(label,'Abuso — NO recuperados')) s.ABUSO_NOREC = n;
+      else if (has(label,'Abuso — total')) s.ABUSO_TOTAL = n;
+      else if (has(label,'Cobranza — recuperados')) s.COBRANZA_REC = n;
+      else if (has(label,'Cobranza — NO recuperados')) s.COBRANZA_NOREC = n;
+      else if (has(label,'Cobranza — total')) s.COBRANZA_TOTAL = n;
+      else if (has(label,'Recuperación — Robo')) s.TASA_REC_ROBO = n;
+      else if (has(label,'Recuperación — Abuso')) s.TASA_REC_ABUSO = n;
+      else if (has(label,'Recuperación — Cobranza')) s.TASA_REC_COBRANZA = n;
+      else if (has(label,'Tasa de Robo')) s.TASA_ROBO = n;
+      else if (has(label,'Tasa de Abuso')) s.TASA_ABUSO = n;
+      else if (has(label,'Tasa de Cobranza')) s.TASA_COBRANZA = n;
     });
     return s;
   }
@@ -1013,6 +1008,89 @@ updateEC();
     if (typeof window.updateEC === 'function') window.updateEC();
   }
 
+  function money(n){ if(n==null||isNaN(n)) return '—'; const sign=n<0?'-':''; return sign+'$'+Math.round(Math.abs(n)).toLocaleString('en-US'); }
+  function pct(n,d){ if(n==null||isNaN(n)) return '—'; return (n*100).toFixed(d===undefined?1:d)+'%'; }
+  function setTxt(id, txt){ const el = document.getElementById(id); if (el) el.textContent = txt; }
+
+  function renderPage1(s){
+    setTxt('s1-total', Math.round(s.TOTAL_ACTIVOS).toLocaleString('en-US'));
+    setTxt('s1-gps', money(s.PRECIO_GPS));
+    setTxt('s1-ble', money(s.PRECIO_BLE));
+    setTxt('s1-n1', money(s.PRECIO_N1));
+    setTxt('s1-n2', money(s.PRECIO_N2));
+    setTxt('s1-n3', money(s.PRECIO_N3));
+    setTxt('s1-rastreo', money(s.PAQ_RASTREO));
+    setTxt('s1-rastreoplus', money(s.PAQ_RASTREO_PLUS));
+    setTxt('s1-renta', money(s.PAQ_RENTA));
+    setTxt('s1-empeno', money(s.PAQ_EMPENO));
+    setTxt('s1-ingactual', money(s.ING_ACTUAL));
+    setTxt('s1-cobroservicio', money(s.COBRO_EVENTO_SERVICIO));
+    setTxt('s1-cobrorobo', s.COBRO_EVENTO_ROBO ? money(s.COBRO_EVENTO_ROBO) : '—');
+    setTxt('s1-cobrototal', money(s.COBRO_EVENTO_TOTAL));
+    setTxt('s1-anerpv', money(s.ANERPV));
+    setTxt('s1-viaticos', money(s.VIATICOS));
+    setTxt('s1-umbral', pct(s.UMBRAL_INTERNO,1));
+    setTxt('s1-pctpenal', pct(s.PCT_PENAL,1));
+    setTxt('s1-valorpesado', money(s.VALOR_PESADO));
+    setTxt('s1-valorligero', money(s.VALOR_LIGERO));
+
+    setTxt('s1-robo-rec', s.ROBO_REC); setTxt('s1-robo-norec', s.ROBO_NOREC); setTxt('s1-robo-total', s.ROBO_TOTAL);
+    setTxt('s1-robo-pct', pct(s.TASA_REC_ROBO,1));
+    setTxt('s1-abuso-rec', s.ABUSO_REC); setTxt('s1-abuso-norec', s.ABUSO_NOREC); setTxt('s1-abuso-total', s.ABUSO_TOTAL);
+    setTxt('s1-abuso-pct', pct(s.TASA_REC_ABUSO,1));
+    setTxt('s1-cobranza-rec', s.COBRANZA_REC); setTxt('s1-cobranza-norec', s.COBRANZA_NOREC); setTxt('s1-cobranza-total', s.COBRANZA_TOTAL);
+    setTxt('s1-cobranza-pct', pct(s.TASA_REC_COBRANZA,1));
+    const totRec = s.ROBO_REC+s.ABUSO_REC+s.COBRANZA_REC, totNorec = s.ROBO_NOREC+s.ABUSO_NOREC+s.COBRANZA_NOREC;
+    const totTotal = totRec+totNorec;
+    setTxt('s1-tot-rec', totRec); setTxt('s1-tot-norec', totNorec); setTxt('s1-tot-total', totTotal);
+    setTxt('s1-tot-pct', pct(totTotal? totRec/totTotal:0,1));
+    setTxt('s1-tasas', 'Tasas de evento sobre flota total: Robo ' + pct(s.TASA_ROBO,2) + ', Abuso ' + pct(s.TASA_ABUSO,2) + ', Cobranza ' + pct(s.TASA_COBRANZA,2) + ', Total ' + pct((s.TASA_ROBO+s.TASA_ABUSO+s.TASA_COBRANZA),2) + '.');
+  }
+
+  function renderP2Table(tbodyId, cfg, precioPaquete, tasaEvento, tasaRec, valorUnidad){
+    const FLEETS = [20,50,100,300,500];
+    const rows = FLEETS.map(function(N){
+      const ingActual = N*cfg.ING_ACTUAL;
+      const ingPaquete = N*precioPaquete;
+      const diff = ingPaquete-ingActual;
+      const diffPct = ingActual? diff/ingActual*100 : 0;
+      const anerpv = cfg.ANERPV*N/cfg.TOTAL_ACTIVOS;
+      const eventosEsp = N*tasaEvento;
+      const viaticos = valorUnidad === cfg.VALOR_PESADO ? 0 : eventosEsp*cfg.VIATICOS; // Robo (pesado) no paga viaticos
+      const costos = anerpv+viaticos;
+      const utilActual = ingActual-costos, utilPaquete = ingPaquete-costos;
+      const margActual = ingActual? utilActual/ingActual*100:0, margPaquete = ingPaquete? utilPaquete/ingPaquete*100:0;
+      return '<tr><td>'+N+'</td><td class="num">'+money(ingActual)+'</td><td class="num">'+money(ingPaquete)+'</td>'+
+        '<td class="num">'+(diff>=0?'+':'')+money(diff)+'</td><td class="num">'+(diffPct>=0?'+':'')+diffPct.toFixed(1)+'%</td>'+
+        '<td class="num">'+money(costos)+'</td><td class="num">'+money(utilActual)+'</td><td class="num">'+margActual.toFixed(2)+'%</td>'+
+        '<td class="num">'+money(utilPaquete)+'</td><td class="num">'+margPaquete.toFixed(2)+'%</td></tr>';
+    });
+    const tb = document.getElementById(tbodyId);
+    if (tb) tb.innerHTML = rows.join('');
+  }
+
+  function renderPage2(s){
+    const cfg = { ING_ACTUAL:s.ING_ACTUAL, ANERPV:s.ANERPV, VIATICOS:s.VIATICOS, TOTAL_ACTIVOS:s.TOTAL_ACTIVOS, VALOR_PESADO:s.VALOR_PESADO };
+    renderP2Table('p2-rastreo-tbody', cfg, s.PAQ_RASTREO, s.TASA_ROBO, s.TASA_REC_ROBO, s.VALOR_PESADO);
+    renderP2Table('p2-rastreoplus-tbody', cfg, s.PAQ_RASTREO_PLUS, s.TASA_ROBO, s.TASA_REC_ROBO, s.VALOR_PESADO);
+    renderP2Table('p2-renta-tbody', cfg, s.PAQ_RENTA, s.TASA_ABUSO, s.TASA_REC_ABUSO, s.VALOR_LIGERO);
+    renderP2Table('p2-empeno-tbody', cfg, s.PAQ_EMPENO, s.TASA_COBRANZA, s.TASA_REC_COBRANZA, s.VALOR_LIGERO);
+    // update Rastreo card pill to reflect whether it's viable at current prices
+    const rastreoCard = document.getElementById('p2-rastreo');
+    if (rastreoCard){
+      const h3 = rastreoCard.querySelector('h3');
+      const viable = s.PAQ_RASTREO > s.ING_ACTUAL;
+      if (h3) h3.innerHTML = 'Rastreo (GPS + Niv.1) — <span class="pill ' + (viable?'ok':'bad') + '">' + (viable?'VIABLE':'NO VIABLE en todos los tamaños') + '</span>';
+    }
+    // refresh the ef-valor dropdown with live values
+    const efValor = document.getElementById('ef-valor');
+    if (efValor){
+      efValor.innerHTML = '<option value="'+s.VALOR_PESADO+'">Robo/Pesado ('+money(s.VALOR_PESADO)+')</option>' +
+                           '<option value="'+s.VALOR_LIGERO+'">Abuso/Cobranza/Ligero ('+money(s.VALOR_LIGERO)+')</option>';
+      if (typeof window.updateEF === 'function') window.updateEF();
+    }
+  }
+
   function boot(sheetsPayload, isLive){
     const supuestosRaw = sheetsPayload && sheetsPayload['Supuestos'];
     const datosRaw = sheetsPayload && sheetsPayload['Datos'];
@@ -1021,6 +1099,8 @@ updateEC();
     const years = rawToYearObjs(datosParsed.length ? datosParsed : FALLBACK_DATOS_RAW);
 
     applyPaquetesLive(s);
+    renderPage1(s);
+    renderPage2(s);
     if (typeof window.renderPage9 === 'function'){
       window.renderPage9(years, s, isLive);
     }
