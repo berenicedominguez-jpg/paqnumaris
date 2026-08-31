@@ -197,19 +197,14 @@
 
 <!-- PAGE 3: SENSIBILIDAD PENALIZACION -->
 <div class="page" id="p3">
-  <h2 class="page-title">Recuperación real 2025 y riesgo de penalización</h2>
+  <h2 class="page-title">Recuperación real y riesgo de penalización</h2>
   <p class="page-sub">Situación actual y qué pasaría si la recuperación cae</p>
 
   <div class="card">
-    <h3>Situación real 2025 (por tipo)</h3>
+    <h3>Situación real (por tipo)</h3>
     <table>
       <thead><tr><th>Tipo</th><th class="num">Eventos</th><th class="num">Recup.</th><th class="num">No recup.</th><th class="num">% Recup.</th><th>¿Penaliza?</th><th class="num">Valor unidad</th><th class="num">Monto</th></tr></thead>
-      <tbody>
-        <tr><td>Robo</td><td class="num">481</td><td class="num">413</td><td class="num">68</td><td class="num">85.9%</td><td><span class="pill ok">NO</span></td><td class="num">$1,000,000</td><td class="num">$0</td></tr>
-        <tr><td>Abuso</td><td class="num">54</td><td class="num">47</td><td class="num">7</td><td class="num">87.0%</td><td><span class="pill ok">NO</span></td><td class="num">$300,000</td><td class="num">$0</td></tr>
-        <tr><td>Cobranza</td><td class="num">174</td><td class="num">161</td><td class="num">13</td><td class="num">92.5%</td><td><span class="pill ok">NO</span></td><td class="num">$300,000</td><td class="num">$0</td></tr>
-        <tr class="total"><td>Total/Global</td><td class="num">709</td><td class="num">621</td><td class="num">88</td><td class="num">87.6%</td><td>—</td><td>—</td><td class="num">$0</td></tr>
-      </tbody>
+      <tbody id="p3-situacion-tbody"><tr><td colspan="8" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
@@ -217,22 +212,11 @@
     <h3>Sensibilidad — si la recuperación cae</h3>
     <div class="chart-wrap" style="height:250px;"><canvas id="sensChart" role="img" aria-label="Penalizacion por porcentaje de recuperacion"></canvas></div>
     <table style="margin-top:14px;">
-      <thead><tr><th>% Recup.</th><th class="num">Penal. Robo</th><th class="num">Penal. Abuso+Cobranza</th><th class="num">Penal. TOTAL</th></tr></thead>
-      <tbody>
-        <tr><td>95%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
-        <tr><td>90%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
-        <tr><td>85%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
-        <tr><td>80%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
-        <tr><td>75%</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td></tr>
-        <tr><td>70%</td><td class="num">$14,400,000</td><td class="num">$2,040,000</td><td class="num">$16,440,000</td></tr>
-        <tr><td>65%</td><td class="num">$16,800,000</td><td class="num">$2,400,000</td><td class="num">$19,200,000</td></tr>
-        <tr><td>60%</td><td class="num">$19,200,000</td><td class="num">$2,730,000</td><td class="num">$21,930,000</td></tr>
-        <tr><td>55%</td><td class="num">$21,600,000</td><td class="num">$3,090,000</td><td class="num">$24,690,000</td></tr>
-        <tr><td>50%</td><td class="num">$24,100,000</td><td class="num">$3,420,000</td><td class="num">$27,520,000</td></tr>
-      </tbody>
+      <thead><tr><th>% Recup.</th><th class="num">Penal. Robo/Pesado</th><th class="num">Penal. Abuso+Cobranza/Ligero</th><th class="num">Penal. TOTAL</th></tr></thead>
+      <tbody id="p3-sens-tbody"><tr><td colspan="4" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
-  <div class="note">Robo pesa más en la penalización potencial ($1,000,000/unidad vs $300,000 Abuso/Cobranza) aun con menos eventos no recuperados. Una caída sostenida a 60% en Robo ya generaría varios millones de pesos de penalización.</div>
+  <div class="note" id="p3-note">Cargando…</div>
 </div>
 
 <!-- PAGE 4: ESCENARIO CLIENTE -->
@@ -275,27 +259,21 @@
   <p class="page-sub">Cláusula original: facturación &gt;$20,000/unidad → comisión máx. 20%; con volumen, Niv.2 baja a $2,999-$3,500 y Niv.3 a $3,999-$4,500 por evento</p>
 
   <div class="card">
-    <h3>Escenario A — descuento aplicado al PAQUETE anual — <span class="pill ok">VIABLE</span></h3>
+    <h3>Escenario A — descuento aplicado al PAQUETE anual — <span class="pill ok" id="p5-a-pill">VIABLE</span></h3>
     <table>
       <thead><tr><th>Paquete</th><th class="num">Precio desc. mín.</th><th class="num">Precio desc. máx.</th><th class="num">Margen mín. vs. actual</th><th class="num">Margen máx. vs. actual</th><th class="num">Ingreso total (1,000 u.)</th></tr></thead>
-      <tbody>
-        <tr><td>Renta Diaria</td><td class="num">$8,997</td><td class="num">$9,498</td><td class="num">+$2,497</td><td class="num">+$2,998</td><td class="num">$8,997,000 – $9,498,000</td></tr>
-        <tr><td>Empeño</td><td class="num">$9,997</td><td class="num">$10,498</td><td class="num">+$3,497</td><td class="num">+$3,998</td><td class="num">$9,997,000 – $10,498,000</td></tr>
-      </tbody>
+      <tbody id="p5-a-tbody"><tr><td colspan="6" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
-    <div class="note">El margen baja de ~$5,497 (Renta Diaria de lista) a $2,497-$2,998 con descuento, pero sigue siendo positivo y muy superior a los $6,500/año actuales — el paquete se cobra sobre TODAS las unidades cada año, y el costo de viáticos sólo se paga cuando ocurre un evento real.</div>
+    <div class="note" id="p5-a-note"></div>
   </div>
 
   <div class="card">
-    <h3>Escenario B — descuento aplicado al COBRO POR EVENTO — <span class="pill bad">NO VIABLE</span></h3>
+    <h3>Escenario B — descuento aplicado al COBRO POR EVENTO — <span class="pill bad" id="p5-b-pill">NO VIABLE</span></h3>
     <table>
       <thead><tr><th>Nivel</th><th class="num">Precio desc. mín.</th><th class="num">Precio desc. máx.</th><th class="num">Costo viáticos</th><th class="num">Margen mín.</th><th class="num">Margen máx.</th></tr></thead>
-      <tbody>
-        <tr><td>Nivel 2 (Abuso)</td><td class="num">$2,999</td><td class="num">$3,500</td><td class="num">$8,000</td><td class="num" style="color:var(--red)">-$5,001</td><td class="num" style="color:var(--red)">-$4,500</td></tr>
-        <tr><td>Nivel 3 (Cobranza)</td><td class="num">$3,999</td><td class="num">$4,500</td><td class="num">$8,000</td><td class="num" style="color:var(--red)">-$4,001</td><td class="num" style="color:var(--red)">-$3,500</td></tr>
-      </tbody>
+      <tbody id="p5-b-tbody"><tr><td colspan="6" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
-    <div class="note">El precio con descuento queda por debajo del costo fijo de viáticos ($8,000/evento). Cada recuperación real pierde dinero — el impacto total es acotado porque los eventos son poco frecuentes, pero cada evento individual pierde.</div>
+    <div class="note" id="p5-b-note"></div>
   </div>
 
   <div class="card">
@@ -314,16 +292,10 @@
   <p class="page-sub">Comparativo maestro, costos, puntos a favor/en contra y recomendación final</p>
 
   <div class="card">
-    <h3>Comparativo maestro — flota completa (61,929 unidades)</h3>
+    <h3>Comparativo maestro — flota completa (<span id="p6-totalunidades">61,929</span> unidades)</h3>
     <table>
       <thead><tr><th>Esquema</th><th class="num">Ingreso anual</th><th class="num">Costos anual</th><th class="num">Utilidad neta anual</th></tr></thead>
-      <tbody>
-        <tr><td>Esquema actual</td><td class="num">$407,212,500</td><td class="num">$1,944,000</td><td class="num">$405,268,500</td></tr>
-        <tr><td>Paquete Rastreo (no recomendado)</td><td class="num">$371,450,142</td><td class="num">$1,944,000</td><td class="num">$369,506,142</td></tr>
-        <tr><td>Paquete Rastreo Plus</td><td class="num">$433,317,213</td><td class="num">$1,944,000</td><td class="num">$431,373,213</td></tr>
-        <tr><td>Paquete Renta Diaria</td><td class="num">$742,962,213</td><td class="num">$1,944,000</td><td class="num">$741,018,213</td></tr>
-        <tr><td>Paquete Empeño</td><td class="num">$959,713,713</td><td class="num">$1,944,000</td><td class="num">$957,769,713</td></tr>
-      </tbody>
+      <tbody id="p6-master-tbody"><tr><td colspan="4" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
     <div class="note">Los costos operativos son los MISMOS en el esquema actual y en cualquier paquete — sólo cambia el ingreso, así que la utilidad neta crece en línea directa con el precio del paquete.</div>
   </div>
@@ -332,12 +304,7 @@
     <h3>Desglose de costos operativos</h3>
     <table>
       <thead><tr><th>Concepto</th><th class="num">Anual</th><th class="num">Mensual</th></tr></thead>
-      <tbody>
-        <tr><td>ANERPV</td><td class="num">$120,000</td><td class="num">$10,000</td></tr>
-        <tr><td>Viáticos (228 eventos × $8,000)</td><td class="num">$1,824,000</td><td class="num">$152,000</td></tr>
-        <tr><td>Penalización real 2025</td><td class="num">$0</td><td class="num">$0</td></tr>
-        <tr class="total"><td>Total</td><td class="num">$1,944,000</td><td class="num">$162,000</td></tr>
-      </tbody>
+      <tbody id="p6-costos-tbody"><tr><td colspan="3" style="text-align:center;color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
@@ -371,8 +338,8 @@
     <h3>Recomendación final</h3>
     <table>
       <thead><tr><th>Paquete / Esquema</th><th>Veredicto</th><th>Por qué</th></tr></thead>
-      <tbody>
-        <tr><td>Rastreo (sin BLE)</td><td><span class="pill bad">NO VENDER así</span></td><td>Reduce el ingreso vs. hoy (-$502/u).</td></tr>
+      <tbody id="p6-recomendacion-tbody">
+        <tr><td>Rastreo (sin BLE)</td><td><span class="pill bad" id="p6-rastreo-pill">NO VENDER así</span></td><td id="p6-rastreo-porque">Reduce el ingreso vs. hoy.</td></tr>
         <tr><td>Rastreo Plus</td><td><span class="pill ok">SÍ VENDER</span></td><td>Único "rastreo" que mejora el ingreso actual.</td></tr>
         <tr><td>Renta Diaria</td><td><span class="pill ok">SÍ VENDER — prioridad alta</span></td><td>Ingreso muy superior al esquema actual.</td></tr>
         <tr><td>Empeño</td><td><span class="pill ok">SÍ VENDER — prioridad más alta</span></td><td>El paquete más rentable de todos.</td></tr>
@@ -557,7 +524,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 // Page 3: sensitivity chart
-new Chart(document.getElementById('sensChart'), {
+window.sensChart = new Chart(document.getElementById('sensChart'), {
   type: 'line',
   data: {
     labels: ['95%','90%','85%','80%','75%','70%','65%','60%','55%','50%'],
@@ -1091,6 +1058,117 @@ updateEC();
     }
   }
 
+  function renderPage3(s){
+    const rows = [
+      { tipo:'Robo', total:s.ROBO_TOTAL, rec:s.ROBO_REC, norec:s.ROBO_NOREC, pctrec:s.TASA_REC_ROBO, valor:s.VALOR_PESADO },
+      { tipo:'Abuso', total:s.ABUSO_TOTAL, rec:s.ABUSO_REC, norec:s.ABUSO_NOREC, pctrec:s.TASA_REC_ABUSO, valor:s.VALOR_LIGERO },
+      { tipo:'Cobranza', total:s.COBRANZA_TOTAL, rec:s.COBRANZA_REC, norec:s.COBRANZA_NOREC, pctrec:s.TASA_REC_COBRANZA, valor:s.VALOR_LIGERO },
+    ];
+    const totTotal = rows.reduce((a,r)=>a+r.total,0), totRec = rows.reduce((a,r)=>a+r.rec,0), totNorec = rows.reduce((a,r)=>a+r.norec,0);
+    const html = rows.map(function(r){
+      const penaliza = r.pctrec < s.UMBRAL_INTERNO;
+      const monto = penaliza ? r.norec*r.valor*s.PCT_PENAL : 0;
+      return '<tr><td>'+r.tipo+'</td><td class="num">'+r.total+'</td><td class="num">'+r.rec+'</td><td class="num">'+r.norec+'</td>'+
+        '<td class="num">'+pct(r.pctrec,1)+'</td><td><span class="pill '+(penaliza?'bad':'ok')+'">'+(penaliza?'SI':'NO')+'</span></td>'+
+        '<td class="num">'+money(r.valor)+'</td><td class="num">'+money(monto)+'</td></tr>';
+    }).join('') + '<tr class="total"><td>Total/Global</td><td class="num">'+totTotal+'</td><td class="num">'+totRec+'</td><td class="num">'+totNorec+'</td>'+
+      '<td class="num">'+pct(totTotal?totRec/totTotal:0,1)+'</td><td>—</td><td>—</td><td class="num">$0</td></tr>';
+    const tb = document.getElementById('p3-situacion-tbody');
+    if (tb) tb.innerHTML = html;
+
+    const rates = [0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50];
+    const sensRows = rates.map(function(rate){
+      const penalPesado = rate < s.UMBRAL_INTERNO ? s.ROBO_TOTAL*(1-rate)*s.VALOR_PESADO*s.PCT_PENAL : 0;
+      const penalLigero = rate < s.UMBRAL_INTERNO ? (s.ABUSO_TOTAL+s.COBRANZA_TOTAL)*(1-rate)*s.VALOR_LIGERO*s.PCT_PENAL : 0;
+      return { rate: rate, pesado: penalPesado, ligero: penalLigero, total: penalPesado+penalLigero };
+    });
+    const sensTb = document.getElementById('p3-sens-tbody');
+    if (sensTb){
+      sensTb.innerHTML = sensRows.map(function(r){
+        return '<tr><td>'+Math.round(r.rate*100)+'%</td><td class="num">'+money(r.pesado)+'</td><td class="num">'+money(r.ligero)+'</td><td class="num">'+money(r.total)+'</td></tr>';
+      }).join('');
+    }
+    if (window.sensChart){
+      window.sensChart.data.labels = sensRows.map(function(r){ return Math.round(r.rate*100)+'%'; });
+      window.sensChart.data.datasets[0].data = sensRows.map(function(r){ return r.total; });
+      window.sensChart.update();
+    }
+    const note = document.getElementById('p3-note');
+    if (note) note.textContent = 'Robo/Pesado pesa más en la penalización potencial (' + money(s.VALOR_PESADO) + '/unidad vs ' + money(s.VALOR_LIGERO) + ' Abuso/Cobranza/Ligero) aun con menos eventos no recuperados. Una caída sostenida debajo de ' + pct(s.UMBRAL_INTERNO,0) + ' ya generaría penalización.';
+  }
+
+  function renderPage5(s){
+    const N2_MIN=2999, N2_MAX=3500, N3_MIN=3999, N3_MAX=4500; // clausula externa, no vive en Supuestos
+    const base = (s.PRECIO_GPS||4999) + (s.PRECIO_N1||999);
+    const rentaMin = base+N2_MIN, rentaMax = base+N2_MAX;
+    const empenoMin = base+N3_MIN, empenoMax = base+N3_MAX;
+    const margRentaMin = rentaMin-s.ING_ACTUAL, margRentaMax = rentaMax-s.ING_ACTUAL;
+    const margEmpenoMin = empenoMin-s.ING_ACTUAL, margEmpenoMax = empenoMax-s.ING_ACTUAL;
+    const tbA = document.getElementById('p5-a-tbody');
+    if (tbA) tbA.innerHTML =
+      '<tr><td>Renta Diaria</td><td class="num">'+money(rentaMin)+'</td><td class="num">'+money(rentaMax)+'</td><td class="num">'+(margRentaMin>=0?'+':'')+money(margRentaMin)+'</td><td class="num">'+(margRentaMax>=0?'+':'')+money(margRentaMax)+'</td><td class="num">'+money(rentaMin*1000)+' – '+money(rentaMax*1000)+'</td></tr>'+
+      '<tr><td>Empeño</td><td class="num">'+money(empenoMin)+'</td><td class="num">'+money(empenoMax)+'</td><td class="num">'+(margEmpenoMin>=0?'+':'')+money(margEmpenoMin)+'</td><td class="num">'+(margEmpenoMax>=0?'+':'')+money(margEmpenoMax)+'</td><td class="num">'+money(empenoMin*1000)+' – '+money(empenoMax*1000)+'</td></tr>';
+    const pillA = document.getElementById('p5-a-pill');
+    const aViable = margRentaMin>0 && margEmpenoMin>0;
+    if (pillA){ pillA.textContent = aViable?'VIABLE':'NO VIABLE'; pillA.className = 'pill '+(aViable?'ok':'bad'); }
+    const noteA = document.getElementById('p5-a-note');
+    if (noteA) noteA.textContent = 'El margen con descuento (' + money(margRentaMin) + ' a ' + money(margRentaMax) + ' en Renta Diaria) sigue siendo positivo y superior a los ' + money(s.ING_ACTUAL) + '/año actuales — el paquete se cobra sobre TODAS las unidades cada año, y el costo de viáticos sólo se paga cuando ocurre un evento real.';
+
+    const margN2Min = N2_MIN-s.VIATICOS, margN2Max = N2_MAX-s.VIATICOS;
+    const margN3Min = N3_MIN-s.VIATICOS, margN3Max = N3_MAX-s.VIATICOS;
+    const redStyle = ' style="color:var(--red)"';
+    const tbB = document.getElementById('p5-b-tbody');
+    if (tbB) tbB.innerHTML =
+      '<tr><td>Nivel 2 (Abuso)</td><td class="num">'+money(N2_MIN)+'</td><td class="num">'+money(N2_MAX)+'</td><td class="num">'+money(s.VIATICOS)+'</td><td class="num"'+(margN2Min<0?redStyle:'')+'>'+(margN2Min>=0?'+':'')+money(margN2Min)+'</td><td class="num"'+(margN2Max<0?redStyle:'')+'>'+(margN2Max>=0?'+':'')+money(margN2Max)+'</td></tr>'+
+      '<tr><td>Nivel 3 (Cobranza)</td><td class="num">'+money(N3_MIN)+'</td><td class="num">'+money(N3_MAX)+'</td><td class="num">'+money(s.VIATICOS)+'</td><td class="num"'+(margN3Min<0?redStyle:'')+'>'+(margN3Min>=0?'+':'')+money(margN3Min)+'</td><td class="num"'+(margN3Max<0?redStyle:'')+'>'+(margN3Max>=0?'+':'')+money(margN3Max)+'</td></tr>';
+    const pillB = document.getElementById('p5-b-pill');
+    const bViable = margN2Min>0 && margN3Min>0;
+    if (pillB){ pillB.textContent = bViable?'VIABLE':'NO VIABLE'; pillB.className = 'pill '+(bViable?'ok':'bad'); }
+    const noteB = document.getElementById('p5-b-note');
+    if (noteB) noteB.textContent = 'El precio con descuento se compara contra el costo fijo de viáticos (' + money(s.VIATICOS) + '/evento). Cada recuperación real pierde dinero cuando el precio con descuento queda debajo de ese costo.';
+  }
+
+  function renderPage6(s){
+    setTxt('p6-totalunidades', Math.round(s.TOTAL_ACTIVOS).toLocaleString('en-US'));
+    const eventosVT = s.ABUSO_TOTAL+s.COBRANZA_TOTAL;
+    const viaticosAnual = eventosVT*s.VIATICOS;
+    const costoTotal = s.ANERPV+viaticosAnual; // penalizacion real supuesta $0
+    const ingresoActual = s.TOTAL_ACTIVOS*s.ING_ACTUAL + (s.ABUSO_TOTAL+s.COBRANZA_TOTAL)*s.COBRO_EVENTO_TOTAL;
+    const esquemas = [
+      ['Esquema actual', ingresoActual],
+      ['Paquete Rastreo (' + (s.PAQ_RASTREO>s.ING_ACTUAL?'SÍ recomendado':'no recomendado') + ')', s.TOTAL_ACTIVOS*s.PAQ_RASTREO],
+      ['Paquete Rastreo Plus', s.TOTAL_ACTIVOS*s.PAQ_RASTREO_PLUS],
+      ['Paquete Renta Diaria', s.TOTAL_ACTIVOS*s.PAQ_RENTA],
+      ['Paquete Empeño', s.TOTAL_ACTIVOS*s.PAQ_EMPENO],
+    ];
+    const tb = document.getElementById('p6-master-tbody');
+    if (tb) tb.innerHTML = esquemas.map(function(e){
+      const util = e[1]-costoTotal;
+      return '<tr><td>'+e[0]+'</td><td class="num">'+money(e[1])+'</td><td class="num">'+money(costoTotal)+'</td><td class="num">'+money(util)+'</td></tr>';
+    }).join('');
+
+    const tbC = document.getElementById('p6-costos-tbody');
+    if (tbC) tbC.innerHTML =
+      '<tr><td>ANERPV</td><td class="num">'+money(s.ANERPV)+'</td><td class="num">'+money(s.ANERPV/12)+'</td></tr>'+
+      '<tr><td>Viáticos ('+eventosVT+' eventos × '+money(s.VIATICOS)+')</td><td class="num">'+money(viaticosAnual)+'</td><td class="num">'+money(viaticosAnual/12)+'</td></tr>'+
+      '<tr><td>Penalización real</td><td class="num">$0</td><td class="num">$0</td></tr>'+
+      '<tr class="total"><td>Total</td><td class="num">'+money(costoTotal)+'</td><td class="num">'+money(costoTotal/12)+'</td></tr>';
+
+    const rastreoViable = s.PAQ_RASTREO > s.ING_ACTUAL;
+    const pill = document.getElementById('p6-rastreo-pill');
+    if (pill){
+      pill.textContent = rastreoViable ? 'SÍ VENDER' : 'NO VENDER así';
+      pill.className = 'pill ' + (rastreoViable?'ok':'bad');
+    }
+    const porque = document.getElementById('p6-rastreo-porque');
+    if (porque){
+      const diff = s.PAQ_RASTREO - s.ING_ACTUAL;
+      porque.textContent = rastreoViable
+        ? ('Supera el ingreso actual (+' + money(diff) + '/u).')
+        : ('Reduce el ingreso vs. hoy (' + money(diff) + '/u).');
+    }
+  }
+
   function boot(sheetsPayload, isLive){
     const supuestosRaw = sheetsPayload && sheetsPayload['Supuestos'];
     const datosRaw = sheetsPayload && sheetsPayload['Datos'];
@@ -1101,6 +1179,9 @@ updateEC();
     applyPaquetesLive(s);
     renderPage1(s);
     renderPage2(s);
+    renderPage3(s);
+    renderPage5(s);
+    renderPage6(s);
     if (typeof window.renderPage9 === 'function'){
       window.renderPage9(years, s, isLive);
     }
