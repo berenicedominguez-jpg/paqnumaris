@@ -59,8 +59,10 @@
 
 <div class="topbar">
   <h1>Numaris — Análisis de paquetes GPS y recuperación</h1>
-  <p>8 hojas del modelo, en una sola página · datos 2025</p>
+  <p>9 hojas del modelo, en una sola página · conectado en vivo a Google Sheets</p>
 </div>
+
+<div id="globalLiveStatus" style="margin:10px 20px; padding:10px 14px; border-left:3px solid var(--muted); background:#faf9f6; border-radius:0 8px 8px 0; font-size:12.5px; color:#52514e;">Conectando con Google Sheets…</div>
 
 <div class="tabs" id="tabs">
   <button class="tab-btn active" data-page="p1">1. Supuestos</button>
@@ -482,190 +484,87 @@
 
 <!-- PAGE 9: PROYECCIÓN 2026 -->
 <div class="page" id="p9">
-  <h2 class="page-title">Proyección de cierre 2026 — 3 escenarios de penalización</h2>
-  <p class="page-sub">Histórico 2023-2025 real + 2026 enero-agosto real, proyectado a cierre de año (factor 12/8 = 1.5x)</p>
+  <h2 class="page-title">Proyección de cierre — 3 escenarios de penalización</h2>
+  <p class="page-sub">Conectado en vivo al Google Sheets de estadísticas anuales (2023 en adelante)</p>
 
-  <div class="kpi-row">
-    <div class="kpi"><p class="label">% Recuperación 2026 (ene-ago)</p><p class="value">89.05%</p></div>
-    <div class="kpi"><p class="label">% Recuperación proyectada cierre</p><p class="value">89.05%</p></div>
-    <div class="kpi"><p class="label">Unidades NO recup. proyectadas</p><p class="value red">90</p></div>
-    <div class="kpi"><p class="label">¿Supera umbral interno (75%)?</p><p class="value green">Sí — sin penal.</p></div>
+  <div class="kpi-row" id="kpiRow">
+    <div class="kpi"><p class="label">% Recuperación (periodo actual)</p><p class="value" id="kpiPctActual">—</p></div>
+    <div class="kpi"><p class="label">% Recuperación proyectada cierre</p><p class="value" id="kpiPctCierre">—</p></div>
+    <div class="kpi"><p class="label">Unidades NO recup. proyectadas</p><p class="value red" id="kpiNorec">—</p></div>
+    <div class="kpi"><p class="label">¿Supera umbral interno (75%)?</p><p class="value" id="kpiUmbral">—</p></div>
   </div>
 
   <div class="card">
-    <h3>Datos históricos y proyección de cierre 2026</h3>
+    <h3>Datos históricos y proyección de cierre</h3>
     <table>
-      <thead><tr><th>Año</th><th class="num">Recuperados</th><th class="num">No recuperados</th><th class="num">Total unidades</th><th class="num">% Recuperación</th><th class="num">Monto recuperado</th><th class="num">Monto no recuperado</th></tr></thead>
-      <tbody>
-        <tr><td>2023</td><td class="num">385</td><td class="num">63</td><td class="num">28,557</td><td class="num">85.94%</td><td class="num">$2,479,686,387</td><td class="num">$39,461,642</td></tr>
-        <tr><td>2024</td><td class="num">302</td><td class="num">36</td><td class="num">40,384</td><td class="num">89.35%</td><td class="num">$1,133,871,295</td><td class="num">$24,197,699</td></tr>
-        <tr><td>2025</td><td class="num">622</td><td class="num">88</td><td class="num">54,454</td><td class="num">87.61%</td><td class="num">$371,147,095</td><td class="num">$48,868,566</td></tr>
-        <tr><td>2026 (ene-ago, real)</td><td class="num">488</td><td class="num">60</td><td class="num">62,387</td><td class="num">89.05%</td><td class="num">$270,963,319</td><td class="num">$38,306,111</td></tr>
-        <tr class="total"><td>2026 (proyección cierre)</td><td class="num">732</td><td class="num">90</td><td class="num">62,387*</td><td class="num">89.05%</td><td class="num">$406,444,978</td><td class="num">$57,459,167</td></tr>
-        <tr class="total" style="background:#eef0f5;"><td>2027 (proyección)</td><td class="num">906</td><td class="num">124</td><td class="num">81,888**</td><td class="num">88.0%</td><td class="num">—</td><td class="num">—</td></tr>
-      </tbody>
+      <thead><tr><th>Periodo</th><th class="num">Recuperados</th><th class="num">No recuperados</th><th class="num">Total unidades</th><th class="num">% Recuperación</th><th class="num">Monto recuperado</th><th class="num">Monto no recuperado</th></tr></thead>
+      <tbody id="histTbody"><tr><td colspan="7" style="text-align:center; color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
-    <div class="note">*Total de unidades se mantiene al último valor conocido (ago-2026); no se proyecta porque no es una variable de flujo anual. El resto (recuperados, no recuperados, montos) se proyecta multiplicando por 12/8, asumiendo que el ritmo de septiembre a diciembre se comporta igual que enero-agosto.</div>
-    <div class="note">**2027 usa una metodología distinta porque es un año completo a futuro (no hay datos reales que ajustar, como sí los hay en 2026). Total de unidades: se extiende el crecimiento reciente observado de 2025 a ago-2026 (22.6% anualizado) 16 meses hacia adelante → 81,888 unidades. Eventos: se aplica la tasa promedio histórica de eventos por unidad (1.257%, promedio de los 4 años) → 1,029 eventos. % Recuperación: se usa el promedio histórico de los 4 años (88.0%) en vez de una tendencia, porque la recuperación no muestra una dirección clara (sube y baja entre 85.9% y 89.4%).</div>
+    <div class="note" id="histNote1"></div>
+    <div class="note" id="histNote2"></div>
   </div>
 
-  <h3 style="margin:28px 0 4px;">Los 3 escenarios de penalización, año por año</h3>
+  <h3 style="margin:28px 0 4px;">Los 3 escenarios de penalización, por periodo</h3>
   <p class="page-sub" style="margin-top:0;">Aplicando las reglas de INTERNO (10% del monto no recuperado si &lt;75%), QUALITAS ($100,000 fijo por unidad no recuperada si &lt;90%) y GNP (tramo de días de pago)</p>
 
   <div class="card">
     <table>
-      <thead><tr><th>Año</th><th class="num">% Recup.</th><th class="num">Escenario INTERNO</th><th class="num">Escenario QUALITAS</th><th>Escenario GNP</th></tr></thead>
-      <tbody>
-        <tr><td>2023</td><td class="num">85.94%</td><td class="num">$0</td><td class="num">$6,300,000</td><td>15 días</td></tr>
-        <tr><td>2024</td><td class="num">89.35%</td><td class="num">$0</td><td class="num">$3,600,000</td><td>15 días</td></tr>
-        <tr><td>2025</td><td class="num">87.61%</td><td class="num">$0</td><td class="num">$8,800,000</td><td>15 días</td></tr>
-        <tr><td>2026 (ene-ago, real)</td><td class="num">89.05%</td><td class="num">$0</td><td class="num">$6,000,000</td><td>15 días</td></tr>
-        <tr class="total"><td>2026 (proyección cierre)</td><td class="num">89.05%</td><td class="num">$0</td><td class="num">$9,000,000</td><td>15 días</td></tr>
-        <tr class="total" style="background:#eef0f5;"><td>2027 (proyección)</td><td class="num">88.0%</td><td class="num">$0</td><td class="num">$12,400,000</td><td>15 días</td></tr>
-      </tbody>
+      <thead><tr><th>Periodo</th><th class="num">% Recup.</th><th class="num">Escenario INTERNO</th><th class="num">Escenario QUALITAS</th><th>Escenario GNP</th></tr></thead>
+      <tbody id="penalTbody"><tr><td colspan="5" style="text-align:center; color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
-  <div class="note" style="border-left-color:var(--red);">
-    <b>Hallazgo clave:</b> bajo el modelo INTERNO, la penalización siempre da $0 en los 4 años (nunca cae debajo de 75%
-    de recuperación). Pero bajo las reglas reales de QUALITAS (umbral 90%), Numaris <b>habría pagado penalización
-    los 4 años sin excepción</b> — entre $3.6M y $9.0M — porque la recuperación nunca alcanzó el 90% que exige Qualitas.
-    Si Qualitas es una aseguradora con la que se trabaja directamente, el riesgo real de penalización es
-    considerablemente mayor de lo que el modelo interno sugiere.
-  </div>
-  <div class="note">
-    <b>GNP:</b> los 4 años (incluyendo el cierre proyectado de 2026) caen en el tramo intermedio (85%-94.9%), es
-    decir, pago a 15 días hábiles — ningún año ha alcanzado el tramo más rápido de 7 días (que requiere ≥95% de
-    cumplimiento, aunque recordar que la fórmula real de GNP pesa la recuperación solo 35%, así que esta es una
-    aproximación).
-  </div>
-  <div class="note">
-    <b>Cierre 2026 proyectado:</b> si el patrón de enero-agosto se mantiene, 2026 cerraría con 732 unidades
-    recuperadas y 90 no recuperadas (89.05% de recuperación) — prácticamente igual a la tasa observada en 2024 y
-    2025. Bajo Qualitas, esto representaría la penalización más alta de los 4 años ($9,000,000), simplemente porque
-    el volumen total de eventos también es el más alto proyectado.
-  </div>
+  <div class="note" id="penalNote1" style="border-left-color:var(--red);"></div>
+  <div class="note" id="penalNote2"></div>
 
-  <h3 style="margin:28px 0 4px;">Utilidad y margen del negocio, año por año</h3>
-  <p class="page-sub" style="margin-top:0;">Ingreso = Total de unidades del año × $6,500 (rastreo base). Costos = ANERPV + viáticos (eventos × $8,000). Comparando la utilidad si la penalización sigue reglas INTERNAS vs. si siguiera reglas QUALITAS.</p>
+  <h3 style="margin:28px 0 4px;">Utilidad y margen del negocio, por periodo</h3>
+  <p class="page-sub" style="margin-top:0;">Ingreso = Total de unidades del periodo × $6,500 (rastreo base). Costos = ANERPV + viáticos (eventos × $8,000). Comparando la utilidad si la penalización sigue reglas INTERNAS vs. si siguiera reglas QUALITAS.</p>
 
   <div class="card">
     <table>
-      <thead><tr><th>Año</th><th class="num">Ingreso</th><th class="num">ANERPV</th><th class="num">Viáticos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Utilidad (si QUALITAS)</th><th class="num">Margen</th></tr></thead>
-      <tbody>
-        <tr><td>2023</td><td class="num">$185,620,500</td><td class="num">$120,000</td><td class="num">$3,584,000</td><td class="num">$181,916,500</td><td class="num">98.0%</td><td class="num">$175,616,500</td><td class="num">94.6%</td></tr>
-        <tr><td>2024</td><td class="num">$262,496,000</td><td class="num">$120,000</td><td class="num">$2,704,000</td><td class="num">$259,672,000</td><td class="num">98.9%</td><td class="num">$256,072,000</td><td class="num">97.6%</td></tr>
-        <tr><td>2025</td><td class="num">$353,951,000</td><td class="num">$120,000</td><td class="num">$5,680,000</td><td class="num">$348,151,000</td><td class="num">98.4%</td><td class="num">$339,351,000</td><td class="num">95.9%</td></tr>
-        <tr><td>2026 (ene-ago, real)</td><td class="num">$270,343,667</td><td class="num">$80,000</td><td class="num">$4,384,000</td><td class="num">$265,879,667</td><td class="num">98.3%</td><td class="num">$259,879,667</td><td class="num">96.1%</td></tr>
-        <tr class="total"><td>2026 (proyección cierre)</td><td class="num">$405,515,500</td><td class="num">$120,000</td><td class="num">$6,576,000</td><td class="num">$398,819,500</td><td class="num">98.3%</td><td class="num">$389,819,500</td><td class="num">96.1%</td></tr>
-        <tr class="total" style="background:#eef0f5;"><td>2027 (proyección)</td><td class="num">$532,275,025</td><td class="num">$120,000</td><td class="num">$8,233,381</td><td class="num">$523,921,644</td><td class="num">98.4%</td><td class="num">$511,556,994</td><td class="num">96.1%</td></tr>
-      </tbody>
+      <thead><tr><th>Periodo</th><th class="num">Ingreso</th><th class="num">ANERPV</th><th class="num">Viáticos</th><th class="num">Utilidad (INTERNO)</th><th class="num">Margen</th><th class="num">Utilidad (si QUALITAS)</th><th class="num">Margen</th></tr></thead>
+      <tbody id="marginTbody"><tr><td colspan="8" style="text-align:center; color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
 
-  <div class="note">
-    <b>Lectura:</b> el margen se mantiene muy alto (94.6%-98.9%) en ambos escenarios porque el ingreso base de
-    rastreo ($6,500 × todas las unidades) es mucho mayor que los costos de operar la recuperación. Aun así, adoptar
-    las reglas de Qualitas le resta entre 1.1 y 3.4 puntos porcentuales de margen cada año — en 2026 proyectado,
-    la diferencia entre ambos escenarios es de <b>$9,000,000</b> de utilidad, sólo por el cambio en la regla de
-    penalización aplicada.
-  </div>
+  <div class="note" id="marginNote1"></div>
   <div class="note">
     <b>Importante — supuesto de esta hoja:</b> el ingreso ($6,500/unidad) y el costo de viáticos ($8,000/evento) se
-    aplican aquí sobre el TOTAL de eventos de cada año sin distinguir Robo/Abuso/Cobranza (esta tabla histórica no
-    trae ese desglose por tipo, a diferencia de la hoja "Supuestos"). Si en algún año la mezcla de tipos de evento
-    fue muy distinta a 2025 (67.8% Robo / 32.2% Abuso+Cobranza), el costo real de viáticos podría ser algo menor,
-    ya que el Robo no genera viáticos.
+    aplican aquí sobre el TOTAL de eventos de cada periodo sin distinguir Robo/Abuso/Cobranza (esta tabla histórica
+    no trae ese desglose por tipo, a diferencia de la hoja "Supuestos"). Si en algún periodo la mezcla de tipos de
+    evento fue muy distinta a 2025, el costo real de viáticos podría ser algo menor, ya que el Robo no genera
+    viáticos.
   </div>
-  <div class="note" style="border-left-color:var(--amber);">
-    <b>2027 — hallazgo:</b> aun con crecimiento de flota (+22.6% anual estimado) el margen se mantiene prácticamente
-    igual (98.4% interno, 96.1% si Qualitas), porque ingreso y costos crecen a un ritmo parecido. Lo que SÍ crece en
-    pesos es la penalización de Qualitas: de $9,000,000 (2026 proyectado) a <b>$12,400,000</b> (2027), un 38% más,
-    simplemente porque hay más unidades y por lo tanto más eventos no recuperados en términos absolutos — aunque el
-    % de recuperación (88.0%) es similar al de años anteriores.
-  </div>
+  <div class="note" id="marginNote2" style="border-left-color:var(--amber);"></div>
 
-  <h3 style="margin:28px 0 4px;">Utilidad y margen por tamaño de flota, usando los datos de esta hoja (2026-2027)</h3>
+  <h3 style="margin:28px 0 4px;">Utilidad y margen por tamaño de flota, usando los datos de esta hoja</h3>
   <p class="page-sub" style="margin-top:0;">Para un cliente de 20 a 2,000 unidades, aplicando la tasa de eventos y % de recuperación reales de CADA periodo (no las de la hoja "Supuestos"). Costos = ANERPV prorateado + viáticos (eventos × $8,000). Margen se muestra como INTERNO / QUALITAS.</p>
 
-  <div class="card">
+  <div class="card" style="overflow-x:auto;">
     <table>
-      <thead><tr><th rowspan="2">Unidades</th><th class="num" colspan="2">2026 (ene-ago, real)</th><th class="num" colspan="2">2026 (proyección)</th><th class="num" colspan="2">2027 (proyección)</th></tr><tr><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$86,667</td><td class="num">98.35% / 96.13%</td><td class="num">$130,000</td><td class="num">98.35% / 96.13%</td><td class="num">$130,000</td><td class="num">98.43% / 96.11%</td></tr>
-        <tr><td>50</td><td class="num">$216,667</td><td class="num">98.35% / 96.13%</td><td class="num">$325,000</td><td class="num">98.35% / 96.13%</td><td class="num">$325,000</td><td class="num">98.43% / 96.11%</td></tr>
-        <tr><td>100</td><td class="num">$433,333</td><td class="num">98.35% / 96.13%</td><td class="num">$650,000</td><td class="num">98.35% / 96.13%</td><td class="num">$650,000</td><td class="num">98.43% / 96.11%</td></tr>
-        <tr><td>300</td><td class="num">$1,300,000</td><td class="num">98.35% / 96.13%</td><td class="num">$1,950,000</td><td class="num">98.35% / 96.13%</td><td class="num">$1,950,000</td><td class="num">98.43% / 96.11%</td></tr>
-        <tr><td>500</td><td class="num">$2,166,667</td><td class="num">98.35% / 96.13%</td><td class="num">$3,250,000</td><td class="num">98.35% / 96.13%</td><td class="num">$3,250,000</td><td class="num">98.43% / 96.11%</td></tr>
-        <tr><td>1,000</td><td class="num">$4,333,333</td><td class="num">98.35% / 96.13%</td><td class="num">$6,500,000</td><td class="num">98.35% / 96.13%</td><td class="num">$6,500,000</td><td class="num">98.43% / 96.11%</td></tr>
-        <tr><td>2,000</td><td class="num">$8,666,667</td><td class="num">98.35% / 96.13%</td><td class="num">$13,000,000</td><td class="num">98.35% / 96.13%</td><td class="num">$13,000,000</td><td class="num">98.43% / 96.11%</td></tr>
-      </tbody>
+      <thead><tr id="fleetHeadRow1"><th rowspan="2">Unidades</th></tr><tr id="fleetHeadRow2"></tr></thead>
+      <tbody id="fleetTbody"><tr><td colspan="20" style="text-align:center; color:var(--muted);">Cargando…</td></tr></tbody>
     </table>
   </div>
   <div class="note">
-    <b>Metodología:</b> a diferencia de la pestaña "Escenarios Flota" (que usa las tasas fijas de 2025 de la hoja "Supuestos", separadas por tipo Robo/Abuso/Cobranza), aquí uso la tasa de eventos y el % de recuperación AGREGADOS de cada periodo de ESTA hoja (los que compartiste: recuperados, no recuperados y total de unidades). Costos = ANERPV prorateado (unidades del cliente ÷ unidades totales de ese periodo) + viáticos (eventos esperados del cliente × $8,000). La columna QUALITAS siempre muestra un margen menor porque en NINGÚN periodo la recuperación alcanza el 90% que exige Qualitas — a diferencia de la penalización interna, que nunca se activa porque no cae debajo del 75%.
+    <b>Metodología:</b> a diferencia de la pestaña "Escenarios Flota" (que usa las tasas fijas de 2025 de la hoja
+    "Supuestos", separadas por tipo Robo/Abuso/Cobranza), aquí uso la tasa de eventos y el % de recuperación
+    AGREGADOS de cada periodo de ESTA hoja en vivo. Costos = ANERPV prorateado (unidades del cliente ÷ unidades
+    totales de ese periodo) + viáticos (eventos esperados del cliente × $8,000).
   </div>
+
+  <h3 style="margin:28px 0 4px;">Utilidad y margen por paquete propuesto</h3>
+  <p class="page-sub" style="margin-top:0;">Mismo método que arriba, pero usando el precio de cada paquete en vez del ingreso actual de $6,500/unidad. Margen se muestra como INTERNO / QUALITAS.</p>
+
+  <div id="packageCardsContainer"></div>
+
   <div class="note">
-    <b>Lectura:</b> el margen apenas varía entre estos tres periodos (98.35%-98.43% interno; 96.11%-96.13% Qualitas) y es prácticamente igual sin importar el tamaño del cliente (20 a 2,000 unidades) — porque tanto ingreso como costos escalan proporcionalmente con las unidades. La diferencia real no está en el margen, sino en qué tan grande es la penalización de Qualitas en pesos: crece con el tamaño de la flota y con el volumen total de eventos proyectado, llegando a ser mayor en 2027 que en 2026, aunque el % de recuperación es similar.
+    <b>Lectura:</b> el margen SÍ varía entre paquetes: Rastreo tiene el más bajo porque su precio es el más bajo de
+    los cuatro, mientras Empeño tiene el más alto porque su precio diluye mejor el costo fijo de ANERPV y viáticos.
   </div>
-
-  <h3 style="margin:28px 0 4px;">Utilidad y margen por paquete propuesto (2026-2027)</h3>
-
-  <p class="page-sub" style="margin-top:0;">Mismo método que arriba, pero usando el precio de cada paquete en vez del ingreso actual de $6,500/unidad. Los costos (ANERPV + viáticos) no cambian por paquete — sólo el ingreso. Margen se muestra como INTERNO / QUALITAS.</p>
-
-  <div class="card">
-    <h4 style="margin:0 0 10px; font-size:14px;">2026 (ene-ago, real) — tasa de eventos 0.878%, recuperación 89.05%</h4>
-    <table>
-      <thead><tr><th rowspan="2">Unidades</th><th class="num" colspan="2">Rastreo ($5,998)</th><th class="num" colspan="2">Rastreo Plus ($6,997)</th><th class="num" colspan="2">Renta Diaria ($11,997)</th><th class="num" colspan="2">Empeño ($15,497)</th></tr><tr><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$79,973</td><td class="num">98.21% / 95.81%</td><td class="num">$93,293</td><td class="num">98.47% / 96.40%</td><td class="num">$159,960</td><td class="num">99.11% / 97.90%</td><td class="num">$206,627</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>50</td><td class="num">$199,933</td><td class="num">98.21% / 95.81%</td><td class="num">$233,233</td><td class="num">98.47% / 96.40%</td><td class="num">$399,900</td><td class="num">99.11% / 97.90%</td><td class="num">$516,567</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>100</td><td class="num">$399,867</td><td class="num">98.21% / 95.81%</td><td class="num">$466,467</td><td class="num">98.47% / 96.40%</td><td class="num">$799,800</td><td class="num">99.11% / 97.90%</td><td class="num">$1,033,133</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>300</td><td class="num">$1,199,600</td><td class="num">98.21% / 95.81%</td><td class="num">$1,399,400</td><td class="num">98.47% / 96.40%</td><td class="num">$2,399,400</td><td class="num">99.11% / 97.90%</td><td class="num">$3,099,400</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>500</td><td class="num">$1,999,333</td><td class="num">98.21% / 95.81%</td><td class="num">$2,332,333</td><td class="num">98.47% / 96.40%</td><td class="num">$3,999,000</td><td class="num">99.11% / 97.90%</td><td class="num">$5,165,667</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>1,000</td><td class="num">$3,998,667</td><td class="num">98.21% / 95.81%</td><td class="num">$4,664,667</td><td class="num">98.47% / 96.40%</td><td class="num">$7,998,000</td><td class="num">99.11% / 97.90%</td><td class="num">$10,331,333</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>2,000</td><td class="num">$7,997,333</td><td class="num">98.21% / 95.81%</td><td class="num">$9,329,333</td><td class="num">98.47% / 96.40%</td><td class="num">$15,996,000</td><td class="num">99.11% / 97.90%</td><td class="num">$20,662,667</td><td class="num">99.31% / 98.38%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <h4 style="margin:0 0 10px; font-size:14px;">2026 (proyección cierre) — tasa de eventos 1.318%, recuperación 89.05%</h4>
-    <table>
-      <thead><tr><th rowspan="2">Unidades</th><th class="num" colspan="2">Rastreo ($5,998)</th><th class="num" colspan="2">Rastreo Plus ($6,997)</th><th class="num" colspan="2">Renta Diaria ($11,997)</th><th class="num" colspan="2">Empeño ($15,497)</th></tr><tr><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$119,960</td><td class="num">98.21% / 95.81%</td><td class="num">$139,940</td><td class="num">98.47% / 96.40%</td><td class="num">$239,940</td><td class="num">99.11% / 97.90%</td><td class="num">$309,940</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>50</td><td class="num">$299,900</td><td class="num">98.21% / 95.81%</td><td class="num">$349,850</td><td class="num">98.47% / 96.40%</td><td class="num">$599,850</td><td class="num">99.11% / 97.90%</td><td class="num">$774,850</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>100</td><td class="num">$599,800</td><td class="num">98.21% / 95.81%</td><td class="num">$699,700</td><td class="num">98.47% / 96.40%</td><td class="num">$1,199,700</td><td class="num">99.11% / 97.90%</td><td class="num">$1,549,700</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>300</td><td class="num">$1,799,400</td><td class="num">98.21% / 95.81%</td><td class="num">$2,099,100</td><td class="num">98.47% / 96.40%</td><td class="num">$3,599,100</td><td class="num">99.11% / 97.90%</td><td class="num">$4,649,100</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>500</td><td class="num">$2,999,000</td><td class="num">98.21% / 95.81%</td><td class="num">$3,498,500</td><td class="num">98.47% / 96.40%</td><td class="num">$5,998,500</td><td class="num">99.11% / 97.90%</td><td class="num">$7,748,500</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>1,000</td><td class="num">$5,998,000</td><td class="num">98.21% / 95.81%</td><td class="num">$6,997,000</td><td class="num">98.47% / 96.40%</td><td class="num">$11,997,000</td><td class="num">99.11% / 97.90%</td><td class="num">$15,497,000</td><td class="num">99.31% / 98.38%</td></tr>
-        <tr><td>2,000</td><td class="num">$11,996,000</td><td class="num">98.21% / 95.81%</td><td class="num">$13,994,000</td><td class="num">98.47% / 96.40%</td><td class="num">$23,994,000</td><td class="num">99.11% / 97.90%</td><td class="num">$30,994,000</td><td class="num">99.31% / 98.38%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <h4 style="margin:0 0 10px; font-size:14px;">2027 (proyección) — tasa de eventos 1.257%, recuperación 88.00%</h4>
-    <table>
-      <thead><tr><th rowspan="2">Unidades</th><th class="num" colspan="2">Rastreo ($5,998)</th><th class="num" colspan="2">Rastreo Plus ($6,997)</th><th class="num" colspan="2">Renta Diaria ($11,997)</th><th class="num" colspan="2">Empeño ($15,497)</th></tr><tr><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th><th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th></tr></thead>
-      <tbody>
-        <tr><td>20</td><td class="num">$119,960</td><td class="num">98.30% / 95.79%</td><td class="num">$139,940</td><td class="num">98.54% / 96.39%</td><td class="num">$239,940</td><td class="num">99.15% / 97.89%</td><td class="num">$309,940</td><td class="num">99.34% / 98.37%</td></tr>
-        <tr><td>50</td><td class="num">$299,900</td><td class="num">98.30% / 95.79%</td><td class="num">$349,850</td><td class="num">98.54% / 96.39%</td><td class="num">$599,850</td><td class="num">99.15% / 97.89%</td><td class="num">$774,850</td><td class="num">99.34% / 98.37%</td></tr>
-        <tr><td>100</td><td class="num">$599,800</td><td class="num">98.30% / 95.79%</td><td class="num">$699,700</td><td class="num">98.54% / 96.39%</td><td class="num">$1,199,700</td><td class="num">99.15% / 97.89%</td><td class="num">$1,549,700</td><td class="num">99.34% / 98.37%</td></tr>
-        <tr><td>300</td><td class="num">$1,799,400</td><td class="num">98.30% / 95.79%</td><td class="num">$2,099,100</td><td class="num">98.54% / 96.39%</td><td class="num">$3,599,100</td><td class="num">99.15% / 97.89%</td><td class="num">$4,649,100</td><td class="num">99.34% / 98.37%</td></tr>
-        <tr><td>500</td><td class="num">$2,999,000</td><td class="num">98.30% / 95.79%</td><td class="num">$3,498,500</td><td class="num">98.54% / 96.39%</td><td class="num">$5,998,500</td><td class="num">99.15% / 97.89%</td><td class="num">$7,748,500</td><td class="num">99.34% / 98.37%</td></tr>
-        <tr><td>1,000</td><td class="num">$5,998,000</td><td class="num">98.30% / 95.79%</td><td class="num">$6,997,000</td><td class="num">98.54% / 96.39%</td><td class="num">$11,997,000</td><td class="num">99.15% / 97.89%</td><td class="num">$15,497,000</td><td class="num">99.34% / 98.37%</td></tr>
-        <tr><td>2,000</td><td class="num">$11,996,000</td><td class="num">98.30% / 95.79%</td><td class="num">$13,994,000</td><td class="num">98.54% / 96.39%</td><td class="num">$23,994,000</td><td class="num">99.15% / 97.89%</td><td class="num">$30,994,000</td><td class="num">99.34% / 98.37%</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="note">
-    <b>Lectura:</b> el margen SÍ varía entre paquetes: Rastreo tiene el más bajo (~98.2%/95.8%) porque su precio es el más bajo de los cuatro, mientras Empeño tiene el más alto (~99.3%/98.4%) porque su precio diluye mejor el costo fijo de ANERPV y viáticos. La utilidad en pesos crece mucho más con Empeño y Renta Diaria que con Rastreo o Rastreo Plus, para cualquier tamaño de flota.
-  </div>
-
 
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -737,17 +636,18 @@ function updateEF(){
 updateEF();
 
 // ---- Page 4: client scenario simulator ----
-const paquetes = {
+var paquetes = {
   rastreo:      { precio: 5998,  incluye: 'GPS + Recuperación Nivel 1 (Robo)' },
   rastreoplus:  { precio: 6997,  incluye: 'GPS + GPS BLE + Recuperación Nivel 1 (Robo)' },
   renta:        { precio: 11997, incluye: 'GPS + Recuperación Nivel 1 (Robo) + Nivel 2 (Abuso)' },
   empeno:       { precio: 15497, incluye: 'GPS + Recuperación Nivel 1 (Robo) + Nivel 3 (Cobranza)' },
 };
+var ecPrecioActual = 6500;
 function updateEC(){
   const unidades = parseFloat(document.getElementById('ec-unidades').value) || 0;
   const key = document.getElementById('ec-paquete').value;
   const p = paquetes[key];
-  const ingActual = unidades * 6500;
+  const ingActual = unidades * ecPrecioActual;
   const ingPaquete = unidades * p.precio;
   const diff = ingPaquete - ingActual;
   const pct = ingActual ? (diff / ingActual * 100) : 0;
@@ -764,6 +664,383 @@ function updateEC(){
 }
 ['ec-unidades','ec-paquete'].forEach(id => document.getElementById(id).addEventListener('input', updateEC));
 updateEC();
+
+// =====================================================================
+// PAGE 9 — LIVE GOOGLE SHEETS CONNECTION
+// =====================================================================
+(function(){
+  const FALLBACK_ELAPSED_MONTHS = 8; // Jan-Aug, fixed reference point for the fallback snapshot
+
+  function fmtMoney(n){
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    const sign = n < 0 ? '-' : '';
+    return sign + '$' + Math.round(Math.abs(n)).toLocaleString('en-US');
+  }
+  function fmtInt(n){
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    return Math.round(n).toLocaleString('en-US');
+  }
+  function fmtPct(n, d){
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    return n.toFixed(d === undefined ? 2 : d) + '%';
+  }
+
+  function withMetrics(y){
+    const eventos = y.rec + y.norec;
+    const pctrec = eventos ? y.rec/eventos : 0;
+    const tasaEvento = y.total ? eventos/y.total : 0;
+    return Object.assign({}, y, { eventos: eventos, pctrec: pctrec, tasaEvento: tasaEvento });
+  }
+
+  function calcCliente(cfg, unidadesTotalPeriodo, unidadesCliente, tasaEvento, pctrec, precioUnidad, meses){
+    const ingreso = unidadesCliente * precioUnidad * (meses/12);
+    const eventosEsp = unidadesCliente * tasaEvento;
+    const norecEsp = eventosEsp * (1 - pctrec);
+    const anerpv = cfg.ANERPV * (meses/12) * (unidadesCliente / unidadesTotalPeriodo);
+    const viaticos = eventosEsp * cfg.VIATICOS;
+    const costos = anerpv + viaticos;
+    const penalQualitas = pctrec < cfg.UMBRAL_QUALITAS ? norecEsp * cfg.QUALITAS_FIJO : 0;
+    const utilInt = ingreso - costos;
+    const utilQua = ingreso - costos - penalQualitas;
+    return {
+      ingreso: ingreso, costos: costos,
+      margInt: ingreso ? utilInt/ingreso*100 : 0,
+      margQua: ingreso ? utilQua/ingreso*100 : 0,
+    };
+  }
+
+  function gnpDias(pctrec){
+    if (pctrec >= 0.95) return '7 días';
+    if (pctrec >= 0.85) return '15 días';
+    return '30 días';
+  }
+
+  const MESES_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+  function buildPeriods(years, isLive){
+    const last = years[years.length - 1];
+    const prev = years.length > 1 ? years[years.length - 2] : null;
+
+    let elapsedMonths, partial;
+    if (isLive){
+      const now = new Date();
+      if (now.getFullYear() === last.year){
+        elapsedMonths = now.getMonth() + 1;
+        partial = true;
+      } else {
+        elapsedMonths = 12;
+        partial = false;
+      }
+    } else {
+      elapsedMonths = FALLBACK_ELAPSED_MONTHS;
+      partial = true;
+    }
+
+    const monthLabel = partial ? ('ene-' + MESES_ES[Math.max(elapsedMonths-1,0)]) : null;
+    const actualLabel = partial ? (last.year + ' (' + monthLabel + ', real)') : (last.year + ' (real, año completo)');
+    const actual = Object.assign({}, last, { label: actualLabel, isProjection: false, meses: elapsedMonths, hasMonto: true });
+
+    let close = null;
+    if (partial){
+      const factor = 12/elapsedMonths;
+      close = withMetrics({
+        year: last.year, rec: last.rec*factor, norec: last.norec*factor, total: last.total,
+        montorec: last.montorec*factor, montonorec: last.montonorec*factor,
+      });
+      close.label = last.year + ' (proyección cierre)';
+      close.isProjection = true; close.meses = 12; close.hasMonto = true;
+    }
+
+    let nextYear = null;
+    if (prev && prev.total > 0){
+      const monthsSpan = partial ? elapsedMonths : 12;
+      const growthAnnual = Math.pow(last.total/prev.total, 12/monthsSpan) - 1;
+      const extensionMonths = partial ? (24 - elapsedMonths) : 12;
+      const nyTotal = last.total * Math.pow(1+growthAnnual, extensionMonths/12);
+      const basisForAvg = years.slice(0, years.length-1).concat([close || withMetrics(last)]);
+      const avgTasa = basisForAvg.reduce(function(s,y){ return s+y.tasaEvento; },0)/basisForAvg.length;
+      const avgPct = basisForAvg.reduce(function(s,y){ return s+y.pctrec; },0)/basisForAvg.length;
+      const nyEventos = nyTotal*avgTasa;
+      nextYear = {
+        year: last.year+1, rec: nyEventos*avgPct, norec: nyEventos*(1-avgPct), total: nyTotal,
+        montorec: null, montonorec: null, eventos: nyEventos, pctrec: avgPct, tasaEvento: avgTasa,
+        label: (last.year+1) + ' (proyección)', isProjection: true, meses: 12, hasMonto: false,
+      };
+    }
+
+    const completedYears = years.slice(0, years.length-1).map(function(y){
+      return Object.assign({}, y, { label: String(y.year), isProjection: false, meses: 12, hasMonto: true });
+    });
+
+    const periods = completedYears.concat([actual]);
+    if (close) periods.push(close);
+    if (nextYear) periods.push(nextYear);
+    return periods;
+  }
+
+  function renderHist(periods, cfg){
+    const tbody = document.getElementById('histTbody');
+    tbody.innerHTML = periods.map(function(p){
+      const cls = p.isProjection ? ' class="total"' : '';
+      return '<tr' + cls + '><td>' + p.label + '</td>' +
+        '<td class="num">' + fmtInt(p.rec) + '</td>' +
+        '<td class="num">' + fmtInt(p.norec) + '</td>' +
+        '<td class="num">' + fmtInt(p.total) + '</td>' +
+        '<td class="num">' + fmtPct(p.pctrec*100) + '</td>' +
+        '<td class="num">' + (p.hasMonto ? fmtMoney(p.montorec) : '—') + '</td>' +
+        '<td class="num">' + (p.hasMonto ? fmtMoney(p.montonorec) : '—') + '</td></tr>';
+    }).join('');
+    document.getElementById('histNote1').textContent =
+      'Total de unidades del periodo actual se mantiene al último valor conocido; no se proyecta a cierre porque no es una variable de flujo anual. Recuperados, no recuperados y montos se proyectan multiplicando por 12/meses transcurridos.';
+    document.getElementById('histNote2').textContent =
+      'La proyección a un año completo a futuro usa: crecimiento de unidades extendiendo el ritmo reciente observado; eventos con la tasa promedio histórica por unidad; % de recuperación con el promedio histórico.';
+  }
+
+  function renderPenal(periods, cfg){
+    const tbody = document.getElementById('penalTbody');
+    tbody.innerHTML = periods.map(function(p){
+      const cls = p.isProjection ? ' class="total"' : '';
+      const penalInterno = (p.hasMonto && p.pctrec < cfg.UMBRAL_INTERNO) ? p.norec*(p.montonorec/Math.max(p.norec,1))*cfg.PCT_PENAL : 0;
+      const penalQualitas = p.pctrec < cfg.UMBRAL_QUALITAS ? p.norec*cfg.QUALITAS_FIJO : 0;
+      return '<tr' + cls + '><td>' + p.label + '</td>' +
+        '<td class="num">' + fmtPct(p.pctrec*100) + '</td>' +
+        '<td class="num">' + fmtMoney(penalInterno) + '</td>' +
+        '<td class="num">' + fmtMoney(penalQualitas) + '</td>' +
+        '<td>' + gnpDias(p.pctrec) + '</td></tr>';
+    }).join('');
+    document.getElementById('penalNote1').innerHTML =
+      '<b>Hallazgo clave:</b> bajo el modelo INTERNO, la penalización da $0 mientras la recuperación no caiga debajo de ' + fmtPct(cfg.UMBRAL_INTERNO*100,0) + '. Bajo las reglas reales de QUALITAS (umbral ' + fmtPct(cfg.UMBRAL_QUALITAS*100,0) + '), Numaris paga penalización cuando la recuperación no la alcanza.';
+    document.getElementById('penalNote2').innerHTML =
+      '<b>GNP:</b> el tramo de días de pago depende del % de recuperación (aproximación — la fórmula real de GNP también pesa conectividad y tiempos de respuesta; recuperación es sólo 35% de esa fórmula).';
+  }
+
+  function renderMargin(periods, cfg){
+    const tbody = document.getElementById('marginTbody');
+    tbody.innerHTML = periods.map(function(p){
+      const cls = p.isProjection ? ' class="total"' : '';
+      const ingreso = p.total*cfg.PRECIO_ACTUAL*(p.meses/12);
+      const anerpv = cfg.ANERPV*(p.meses/12);
+      const viaticos = p.eventos*cfg.VIATICOS;
+      const penalInterno = (p.hasMonto && p.pctrec < cfg.UMBRAL_INTERNO) ? p.norec*(p.montonorec/Math.max(p.norec,1))*cfg.PCT_PENAL : 0;
+      const penalQualitas = p.pctrec < cfg.UMBRAL_QUALITAS ? p.norec*cfg.QUALITAS_FIJO : 0;
+      const utilInt = ingreso-anerpv-viaticos-penalInterno;
+      const utilQua = ingreso-anerpv-viaticos-penalQualitas;
+      return '<tr' + cls + '><td>' + p.label + '</td>' +
+        '<td class="num">' + fmtMoney(ingreso) + '</td>' +
+        '<td class="num">' + fmtMoney(anerpv) + '</td>' +
+        '<td class="num">' + fmtMoney(viaticos) + '</td>' +
+        '<td class="num">' + fmtMoney(utilInt) + '</td>' +
+        '<td class="num">' + fmtPct(ingreso?utilInt/ingreso*100:0,1) + '</td>' +
+        '<td class="num">' + fmtMoney(utilQua) + '</td>' +
+        '<td class="num">' + fmtPct(ingreso?utilQua/ingreso*100:0,1) + '</td></tr>';
+    }).join('');
+    document.getElementById('marginNote1').innerHTML =
+      '<b>Lectura:</b> el margen se mantiene alto en ambos escenarios porque el ingreso base de rastreo ($' + fmtInt(cfg.PRECIO_ACTUAL) + ' × todas las unidades) es mucho mayor que los costos de operar la recuperación.';
+    document.getElementById('marginNote2').innerHTML =
+      '<b>Proyección a futuro:</b> aun con crecimiento de flota, el margen se mantiene relativamente estable porque ingreso y costos crecen a un ritmo parecido; lo que sí crece en pesos es la penalización de Qualitas.';
+  }
+
+  function periodsForSizeTables(periods){
+    return periods.slice(Math.max(periods.length-3,0));
+  }
+
+  function renderFleetTable(periods, cfg){
+    const tail = periodsForSizeTables(periods);
+    document.getElementById('fleetHeadRow1').innerHTML = '<th rowspan="2">Unidades</th>' + tail.map(function(p){
+      return '<th class="num" colspan="2">' + p.label + '</th>';
+    }).join('');
+    document.getElementById('fleetHeadRow2').innerHTML = tail.map(function(){
+      return '<th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th>';
+    }).join('');
+    document.getElementById('fleetTbody').innerHTML = cfg.FLEETS.map(function(N){
+      const cells = tail.map(function(p){
+        const r = calcCliente(cfg, p.total, N, p.tasaEvento, p.pctrec, cfg.PRECIO_ACTUAL, p.meses);
+        return '<td class="num">' + fmtMoney(r.ingreso) + '</td><td class="num">' + fmtPct(r.margInt,2) + ' / ' + fmtPct(r.margQua,2) + '</td>';
+      }).join('');
+      return '<tr><td>' + fmtInt(N) + '</td>' + cells + '</tr>';
+    }).join('');
+  }
+
+  function renderPackageCards(periods, cfg){
+    const tail = periodsForSizeTables(periods);
+    document.getElementById('packageCardsContainer').innerHTML = tail.map(function(p){
+      let html = '<div class="card" style="overflow-x:auto;">';
+      html += '<h4 style="margin:0 0 10px; font-size:14px;">' + p.label + ' — tasa de eventos ' + fmtPct(p.tasaEvento*100,3) + ', recuperación ' + fmtPct(p.pctrec*100) + '</h4>';
+      html += '<table><thead><tr><th rowspan="2">Unidades</th>' + cfg.PAQUETES.map(function(pq){
+        return '<th class="num" colspan="2">' + pq[0] + ' ($' + pq[1].toLocaleString('en-US') + ')</th>';
+      }).join('') + '</tr><tr>' + cfg.PAQUETES.map(function(){
+        return '<th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th>';
+      }).join('') + '</tr></thead><tbody>';
+      cfg.FLEETS.forEach(function(N){
+        html += '<tr><td>' + fmtInt(N) + '</td>';
+        cfg.PAQUETES.forEach(function(pq){
+          const r = calcCliente(cfg, p.total, N, p.tasaEvento, p.pctrec, pq[1], p.meses);
+          html += '<td class="num">' + fmtMoney(r.ingreso) + '</td><td class="num">' + fmtPct(r.margInt,2) + ' / ' + fmtPct(r.margQua,2) + '</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    }).join('');
+  }
+
+  function renderKpis(periods, cfg){
+    const actual = periods.filter(function(p){ return !p.isProjection; }).slice(-1)[0] || periods[0];
+    const close = periods.find(function(p){ return p.isProjection && p.label.indexOf('cierre') !== -1; });
+    const cierre = close || actual;
+    document.getElementById('kpiPctActual').textContent = fmtPct(actual.pctrec*100);
+    document.getElementById('kpiPctCierre').textContent = fmtPct(cierre.pctrec*100);
+    document.getElementById('kpiNorec').textContent = fmtInt(cierre.norec);
+    const okEl = document.getElementById('kpiUmbral');
+    if (cierre.pctrec >= cfg.UMBRAL_INTERNO){
+      okEl.textContent = 'Sí — sin penal.'; okEl.className = 'value green';
+    } else {
+      okEl.textContent = 'No — SÍ penaliza'; okEl.className = 'value red';
+    }
+  }
+
+  // Exposed entry point — called by the central live-data loader with parsed years + supuestos
+  window.renderPage9 = function(yearsRaw, supuestos, isLive){
+    const cfg = {
+      ANERPV: (supuestos && supuestos.ANERPV) || 120000,
+      VIATICOS: (supuestos && supuestos.VIATICOS) || 8000,
+      UMBRAL_INTERNO: (supuestos && supuestos.UMBRAL_INTERNO) || 0.75,
+      UMBRAL_QUALITAS: 0.90,
+      PCT_PENAL: (supuestos && supuestos.PCT_PENAL) || 0.10,
+      QUALITAS_FIJO: 100000,
+      PRECIO_ACTUAL: (supuestos && supuestos.ING_ACTUAL) || 6500,
+      PAQUETES: [
+        ['Rastreo', (supuestos && supuestos.PAQ_RASTREO) || 5998],
+        ['Rastreo Plus', (supuestos && supuestos.PAQ_RASTREO_PLUS) || 6997],
+        ['Renta Diaria', (supuestos && supuestos.PAQ_RENTA) || 11997],
+        ['Empeño', (supuestos && supuestos.PAQ_EMPENO) || 15497],
+      ],
+      FLEETS: [20,50,100,300,500,1000,2000],
+    };
+    const years = yearsRaw.map(withMetrics);
+    if (years.length === 0) return;
+    const periods = buildPeriods(years, isLive);
+    renderKpis(periods, cfg);
+    renderHist(periods, cfg);
+    renderPenal(periods, cfg);
+    renderMargin(periods, cfg);
+    renderFleetTable(periods, cfg);
+    renderPackageCards(periods, cfg);
+  };
+})();
+
+// =====================================================================
+// CONECTOR CENTRAL — Apps Script (Supuestos + Datos, todo en un solo lugar)
+// =====================================================================
+(function(){
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXJGzDLuuIw3uPg5nuNkeapBSmD0DBlWpnO9pEPilk_8WiGVmVpdd8SLjn_mlAAaI/exec';
+
+  const FALLBACK_SUPUESTOS = {
+    TOTAL_ACTIVOS: 61929, PRECIO_GPS: 4999, PRECIO_BLE: 999,
+    PRECIO_N1: 999, PRECIO_N2: 5999, PRECIO_N3: 9499,
+    PAQ_RASTREO: 5998, PAQ_RASTREO_PLUS: 6997, PAQ_RENTA: 11997, PAQ_EMPENO: 15497,
+    ING_ACTUAL: 6500, COBRO_EVENTO_SERVICIO: 12500, COBRO_EVENTO_ROBO: 0, COBRO_EVENTO_TOTAL: 20500,
+    ANERPV: 120000, VIATICOS: 8000, UMBRAL_INTERNO: 0.75, PCT_PENAL: 0.10,
+    VALOR_PESADO: 1000000, VALOR_LIGERO: 300000,
+  };
+  const FALLBACK_DATOS_RAW = [
+    [2023, 385, 63, 28557, 2479686387.00, 39461642.00],
+    [2024, 302, 36, 40384, 1133871294.88, 24197699.00],
+    [2025, 622, 88, 54454, 371147094.99, 48868566.00],
+    [2026, 488, 60, 62387, 270963319.00, 38306111.00],
+  ];
+
+  function parseSupuestos(rows){
+    const s = {};
+    function has(label, sub){ return typeof label === 'string' && label.indexOf(sub) !== -1; }
+    (rows || []).forEach(function(r){
+      const label = r[0], val = r[1];
+      if (label == null || val === '' || val == null) return;
+      const n = Number(val);
+      if (isNaN(n)) return;
+      if (has(label,'Total de activos')) s.TOTAL_ACTIVOS = n;
+      else if (has(label,'GPS BLE (anual)')) s.PRECIO_BLE = n;
+      else if (has(label,'GPS (anual)')) s.PRECIO_GPS = n;
+      else if (has(label,'Nivel 1')) s.PRECIO_N1 = n;
+      else if (has(label,'Nivel 2')) s.PRECIO_N2 = n;
+      else if (has(label,'Nivel 3')) s.PRECIO_N3 = n;
+      else if (has(label,'RASTREO PLUS')) s.PAQ_RASTREO_PLUS = n;
+      else if (has(label,'Paquete RASTREO')) s.PAQ_RASTREO = n;
+      else if (has(label,'RENTA DIARIA')) s.PAQ_RENTA = n;
+      else if (has(label,'EMPEÑO')) s.PAQ_EMPENO = n;
+      else if (has(label,'Ingreso actual por rastreo')) s.ING_ACTUAL = n;
+      else if (has(label,'TOTAL (servicio')) s.COBRO_EVENTO_TOTAL = n;
+      else if (has(label,'SOLO servicio')) s.COBRO_EVENTO_SERVICIO = n;
+      else if (has(label,'evento de Robo')) s.COBRO_EVENTO_ROBO = n;
+      else if (has(label,'ANERPV')) s.ANERPV = n;
+      else if (has(label,'viáticos por evento')) s.VIATICOS = n;
+      else if (has(label,'mínimo de recuperación')) s.UMBRAL_INTERNO = n;
+      else if (has(label,'penalización sobre deducible')) s.PCT_PENAL = n;
+      else if (has(label,'PESADO')) s.VALOR_PESADO = n;
+      else if (has(label,'LIGERO')) s.VALOR_LIGERO = n;
+    });
+    return s;
+  }
+
+  function parseDatos(rows){
+    return (rows || []).filter(function(r){
+      return r[0] !== null && r[0] !== '' && !isNaN(parseFloat(r[0])) && r[0] !== 'AÑO';
+    }).map(function(r){
+      return [Number(r[0]), Number(r[1])||0, Number(r[2])||0, Number(r[3])||0, Number(r[4])||0, Number(r[5])||0];
+    });
+  }
+
+  function rawToYearObjs(raw){
+    return raw.map(function(r){
+      return { year: r[0], rec: r[1], norec: r[2], total: r[3], montorec: r[4], montonorec: r[5] };
+    }).sort(function(a,b){ return a.year - b.year; });
+  }
+
+  function setStatus(ok, msg){
+    const el = document.getElementById('globalLiveStatus');
+    if (!el) return;
+    el.style.borderLeftColor = ok ? '#008300' : '#d03b3b';
+    el.innerHTML = (ok ? '🟢 ' : '🔴 ') + msg;
+  }
+
+  function applyPaquetesLive(s){
+    if (typeof window.paquetes === 'undefined') return;
+    window.ecPrecioActual = s.ING_ACTUAL || window.ecPrecioActual;
+    window.paquetes.rastreo.precio = s.PAQ_RASTREO || window.paquetes.rastreo.precio;
+    window.paquetes.rastreoplus.precio = s.PAQ_RASTREO_PLUS || window.paquetes.rastreoplus.precio;
+    window.paquetes.renta.precio = s.PAQ_RENTA || window.paquetes.renta.precio;
+    window.paquetes.empeno.precio = s.PAQ_EMPENO || window.paquetes.empeno.precio;
+    if (typeof window.updateEC === 'function') window.updateEC();
+  }
+
+  function boot(sheetsPayload, isLive){
+    const supuestosRaw = sheetsPayload && sheetsPayload['Supuestos'];
+    const datosRaw = sheetsPayload && sheetsPayload['Datos'];
+    const s = isLive ? Object.assign({}, FALLBACK_SUPUESTOS, parseSupuestos(supuestosRaw)) : FALLBACK_SUPUESTOS;
+    const datosParsed = isLive ? parseDatos(datosRaw) : FALLBACK_DATOS_RAW;
+    const years = rawToYearObjs(datosParsed.length ? datosParsed : FALLBACK_DATOS_RAW);
+
+    applyPaquetesLive(s);
+    if (typeof window.renderPage9 === 'function'){
+      window.renderPage9(years, s, isLive);
+    }
+    window.LIVE_SUPUESTOS = s;
+  }
+
+  fetch(APPS_SCRIPT_URL)
+    .then(function(resp){
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      return resp.json();
+    })
+    .then(function(data){
+      setStatus(true, 'Conectado en vivo a Google Sheets (Apps Script) — actualizado: ' + new Date().toLocaleString('es-MX') + '.');
+      boot(data.sheets || {}, true);
+    })
+    .catch(function(err){
+      setStatus(false, 'No se pudo conectar en vivo con Google Sheets (' + err.message + '). Mostrando los últimos datos guardados.');
+      boot({}, false);
+    });
+})();
 </script>
 </body>
 </html>
