@@ -481,6 +481,13 @@
     AGREGADOS de cada periodo de ESTA hoja en vivo. Costos = ANERPV prorateado (unidades del cliente ÷ unidades
     totales de ese periodo) + viáticos (eventos esperados del cliente × $8,000).
   </div>
+  <div class="note">
+    <b>Penalización (columnas nuevas):</b> "Penal. INTERNO" usa el valor promedio real por unidad NO recuperada de
+    ese periodo (Monto no recuperado ÷ Unidades no recuperadas, tomado de la hoja "Datos") y aplica el 10% si la
+    recuperación cae debajo del umbral interno. "Penal. QUALITAS" aplica $100,000 fijos por unidad no recuperada si
+    la recuperación cae debajo de 90%. En el periodo de proyección a futuro no hay dato de monto, así que ahí
+    "Penal. INTERNO" siempre muestra $0 (no se puede estimar el valor promedio sin ese dato).
+  </div>
 
   <h3 style="margin:28px 0 4px;">Utilidad y margen por paquete propuesto</h3>
   <p class="page-sub" style="margin-top:0;">Mismo método que arriba, pero usando el precio de cada paquete en vez del ingreso actual de $6,500/unidad. Margen se muestra como INTERNO / QUALITAS.</p>
@@ -621,18 +628,19 @@ updateEC();
     return Object.assign({}, y, { eventos: eventos, pctrec: pctrec, tasaEvento: tasaEvento });
   }
 
-  function calcCliente(cfg, unidadesTotalPeriodo, unidadesCliente, tasaEvento, pctrec, precioUnidad, meses){
+  function calcCliente(cfg, unidadesTotalPeriodo, unidadesCliente, tasaEvento, pctrec, precioUnidad, meses, valorPromedio){
     const ingreso = unidadesCliente * precioUnidad * (meses/12);
     const eventosEsp = unidadesCliente * tasaEvento;
     const norecEsp = eventosEsp * (1 - pctrec);
     const anerpv = cfg.ANERPV * (meses/12) * (unidadesCliente / unidadesTotalPeriodo);
     const viaticos = eventosEsp * cfg.VIATICOS;
     const costos = anerpv + viaticos;
+    const penalInterno = (valorPromedio && pctrec < cfg.UMBRAL_INTERNO) ? norecEsp * valorPromedio * cfg.PCT_PENAL : 0;
     const penalQualitas = pctrec < cfg.UMBRAL_QUALITAS ? norecEsp * cfg.QUALITAS_FIJO : 0;
-    const utilInt = ingreso - costos;
+    const utilInt = ingreso - costos - penalInterno;
     const utilQua = ingreso - costos - penalQualitas;
     return {
-      ingreso: ingreso, costos: costos,
+      ingreso: ingreso, costos: costos, penalInterno: penalInterno, penalQualitas: penalQualitas,
       margInt: ingreso ? utilInt/ingreso*100 : 0,
       margQua: ingreso ? utilQua/ingreso*100 : 0,
     };
@@ -776,15 +784,18 @@ updateEC();
   function renderFleetTable(periods, cfg){
     const tail = periodsForSizeTables(periods);
     document.getElementById('fleetHeadRow1').innerHTML = '<th rowspan="2">Unidades</th>' + tail.map(function(p){
-      return '<th class="num" colspan="2">' + p.label + '</th>';
+      return '<th class="num" colspan="3">' + p.label + '</th>';
     }).join('');
     document.getElementById('fleetHeadRow2').innerHTML = tail.map(function(){
-      return '<th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th>';
+      return '<th class="num">Ingreso</th><th class="num">Penal. (INT / QUA)</th><th class="num">Margen (INT / QUA)</th>';
     }).join('');
     document.getElementById('fleetTbody').innerHTML = cfg.FLEETS.map(function(N){
       const cells = tail.map(function(p){
-        const r = calcCliente(cfg, p.total, N, p.tasaEvento, p.pctrec, cfg.PRECIO_ACTUAL, p.meses);
-        return '<td class="num">' + fmtMoney(r.ingreso) + '</td><td class="num">' + fmtPct(r.margInt,2) + ' / ' + fmtPct(r.margQua,2) + '</td>';
+        const valorProm = p.hasMonto ? p.montonorec/Math.max(p.norec,1) : null;
+        const r = calcCliente(cfg, p.total, N, p.tasaEvento, p.pctrec, cfg.PRECIO_ACTUAL, p.meses, valorProm);
+        return '<td class="num">' + fmtMoney(r.ingreso) + '</td>' +
+          '<td class="num">' + fmtMoney(r.penalInterno) + ' / ' + fmtMoney(r.penalQualitas) + '</td>' +
+          '<td class="num">' + fmtPct(r.margInt,2) + ' / ' + fmtPct(r.margQua,2) + '</td>';
       }).join('');
       return '<tr><td>' + fmtInt(N) + '</td>' + cells + '</tr>';
     }).join('');
@@ -793,18 +804,21 @@ updateEC();
   function renderPackageCards(periods, cfg){
     const tail = periodsForSizeTables(periods);
     document.getElementById('packageCardsContainer').innerHTML = tail.map(function(p){
+      const valorProm = p.hasMonto ? p.montonorec/Math.max(p.norec,1) : null;
       let html = '<div class="card" style="overflow-x:auto;">';
       html += '<h4 style="margin:0 0 10px; font-size:14px;">' + p.label + ' — tasa de eventos ' + fmtPct(p.tasaEvento*100,3) + ', recuperación ' + fmtPct(p.pctrec*100) + '</h4>';
       html += '<table><thead><tr><th rowspan="2">Unidades</th>' + cfg.PAQUETES.map(function(pq){
-        return '<th class="num" colspan="2">' + pq[0] + ' ($' + pq[1].toLocaleString('en-US') + ')</th>';
+        return '<th class="num" colspan="3">' + pq[0] + ' ($' + pq[1].toLocaleString('en-US') + ')</th>';
       }).join('') + '</tr><tr>' + cfg.PAQUETES.map(function(){
-        return '<th class="num">Ingreso</th><th class="num">Margen (INT / QUA)</th>';
+        return '<th class="num">Ingreso</th><th class="num">Penal. (INT / QUA)</th><th class="num">Margen (INT / QUA)</th>';
       }).join('') + '</tr></thead><tbody>';
       cfg.FLEETS.forEach(function(N){
         html += '<tr><td>' + fmtInt(N) + '</td>';
         cfg.PAQUETES.forEach(function(pq){
-          const r = calcCliente(cfg, p.total, N, p.tasaEvento, p.pctrec, pq[1], p.meses);
-          html += '<td class="num">' + fmtMoney(r.ingreso) + '</td><td class="num">' + fmtPct(r.margInt,2) + ' / ' + fmtPct(r.margQua,2) + '</td>';
+          const r = calcCliente(cfg, p.total, N, p.tasaEvento, p.pctrec, pq[1], p.meses, valorProm);
+          html += '<td class="num">' + fmtMoney(r.ingreso) + '</td>' +
+            '<td class="num">' + fmtMoney(r.penalInterno) + ' / ' + fmtMoney(r.penalQualitas) + '</td>' +
+            '<td class="num">' + fmtPct(r.margInt,2) + ' / ' + fmtPct(r.margQua,2) + '</td>';
         });
         html += '</tr>';
       });
